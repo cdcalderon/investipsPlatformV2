@@ -10,9 +10,9 @@
     <p-column field="symbol" header="Symbol"></p-column>
     <p-column field="quantity" header="Quantity"></p-column>
     <p-column styleClass="col-button">
-        <template let-sig="rowData" pTemplate="body">
+        <ng-template let-sig="rowData" pTemplate="body">
             <button type="button" pButton (click)="navigateToChart(sig)" icon="fa-line-chart"></button>
-        </template>
+        </ng-template>
     </p-column>
 
     <ng-template let-signal pTemplate="rowexpansion">
@@ -29,9 +29,9 @@
                             <p-column field="movingAvg10" header="Moving Avg 10"></p-column>
 
                             <p-column header="Date">
-                                <template let-col let-signal="rowData" pTemplate="body">
+                                <ng-template let-col let-signal="rowData" pTemplate="body">
                                     <span>{{signal.dateStr | date :'longDate'}}</span>
-                                </template>
+                                </ng-template>
                             </p-column>
 
                         </p-dataTable>

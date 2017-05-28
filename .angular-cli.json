@@ -32,7 +32,8 @@
           "../node_modules/moment/moment.js",
           "../node_modules/chart.js/dist/Chart.js",
           "../node_modules/fullcalendar/dist/fullcalendar.js",
-          "../node_modules/quill/dist/quill.js"
+          "../node_modules/quill/dist/quill.js",
+        "../src/assets/charting_library/charting_library.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

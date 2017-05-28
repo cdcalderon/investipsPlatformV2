@@ -99,6 +99,7 @@ import {NodeService} from './demo/service/nodeservice';
 import {StockMarketChartComponent} from './stock-market-chart/stock-market-chart-component';
 import {GapSignalsComponent} from './stock-market-signals/gaps/gap-signals-component';
 import {GapSignalsService} from './stock-market-signals/gaps/gap-signals-service';
+import {TradingviewComponent} from './tradingview-chart/tradingview-component';
 
 @NgModule({
     imports: [
@@ -170,6 +171,7 @@ import {GapSignalsService} from './stock-market-signals/gaps/gap-signals-service
         TooltipModule,
         TreeModule,
         TreeTableModule
+
     ],
     declarations: [
         AppComponent,
@@ -194,7 +196,8 @@ import {GapSignalsService} from './stock-market-signals/gaps/gap-signals-service
         UtilsDemo,
         Documentation,
         StockMarketChartComponent,
-        GapSignalsComponent
+        GapSignalsComponent,
+        TradingviewComponent
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
