@@ -99,6 +99,10 @@ import {NodeService} from './demo/service/nodeservice';
 import {StockMarketChartComponent} from './stock-market-chart/stock-market-chart-component';
 import {GapSignalsComponent} from './stock-market-signals/gaps/gap-signals-component';
 import {GapSignalsService} from './stock-market-signals/gaps/gap-signals-service';
+import {ThreeArrowsComponent} from './stock-market-signals/three-arrows/three-arrows-signals-component';
+import {ThreeArrowsService} from './stock-market-signals/three-arrows/three-arrows-signals-service';
+
+
 import {TradingviewComponent} from './tradingview-chart/tradingview-component';
 
 @NgModule({
@@ -197,11 +201,13 @@ import {TradingviewComponent} from './tradingview-chart/tradingview-component';
         Documentation,
         StockMarketChartComponent,
         GapSignalsComponent,
-        TradingviewComponent
+        ThreeArrowsComponent,
+        TradingviewComponent,
+
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
-        CarService, CountryService, EventService, NodeService, GapSignalsService
+        CarService, CountryService, EventService, NodeService, GapSignalsService, ThreeArrowsService
     ],
     bootstrap:[AppComponent]
 })

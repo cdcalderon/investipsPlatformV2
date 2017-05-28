@@ -17,12 +17,12 @@ export class AppMenuComponent implements OnInit {
 
     model: any[];
 
-    constructor(@Inject(forwardRef(() => AppComponent)) public app:AppComponent) {}
-    
+    constructor(@Inject(forwardRef(() => AppComponent)) public app: AppComponent) {}
     ngOnInit() {
         this.model = [
             {label: 'Dashboard', icon: 'dashboard', routerLink: ['/']},
             {label: 'Gap Signals', icon: 'brush', routerLink: ['/gapsignals']},
+            {label: 'Three Arrows Signals', icon: 'brush', routerLink: ['/threearrows']},
             {label: 'Market Charts', icon: 'brush', routerLink: ['/marketchart']},
             {
                 label: 'Themes', icon: 'palette',
@@ -132,11 +132,10 @@ export class AppMenuComponent implements OnInit {
     }
 
     changeTheme(theme) {
-        let themeLink: HTMLLinkElement = <HTMLLinkElement> document.getElementById('theme-css');
-        let layoutLink: HTMLLinkElement = <HTMLLinkElement> document.getElementById('layout-css');
-        
-        themeLink.href = 'assets/theme/theme-' + theme +'.css';
-        layoutLink.href = 'assets/layout/css/layout-' + theme +'.css';
+        const themeLink: HTMLLinkElement = <HTMLLinkElement> document.getElementById('theme-css');
+        const layoutLink: HTMLLinkElement = <HTMLLinkElement> document.getElementById('layout-css');
+        themeLink.href = 'assets/theme/theme-' + theme + '.css';
+        layoutLink.href = 'assets/layout/css/layout-' + theme + '.css';
     }
 }
 
