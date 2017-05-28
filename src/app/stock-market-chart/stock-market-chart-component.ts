@@ -21,11 +21,11 @@ export class StockMarketChartComponent implements OnInit {
         //     this.parent.createComponent(childComponent);
         //
         // }, 5000);
-        // const id = this._route.snapshot.params['id'];
-        // const marktype = this._route.snapshot.params['marktype'];
+        const id = this._route.snapshot.params['id'];
+        const marktype = this._route.snapshot.params['marktype'];
         //
-        // this.marksType = marktype;
-        // this.selectedNavSymbol = id;
+        this.marksType = marktype;
+        this.selectedNavSymbol = id;
     }
 
 }

@@ -20,7 +20,7 @@ import {GapSignalsComponent} from './stock-market-signals/gaps/gap-signals-compo
 export const routes: Routes = [
     {path: '', component: DashboardDemo},
     {path: 'gapsignals', component: GapSignalsComponent},
-    {path: 'marketchart', component: StockMarketChartComponent},
+    {path: 'marketchart/:id/:marktype', component: StockMarketChartComponent},
     {path: 'sample', component: SampleDemo},
     {path: 'forms', component: FormsDemo},
     {path: 'data', component: DataDemo},
