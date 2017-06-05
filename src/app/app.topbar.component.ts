@@ -23,7 +23,7 @@ import {AppComponent} from './app.component';
 
                         <a href="#" (click)="app.onTopbarItemClick($event,profile)">                            
                             <div class="profile-image"></div>
-                            <span class="topbar-item-name">Jane Williams</span>
+                            <span class="topbar-item-name">Carlos Calderon</span>
                         </a>
                         
                         <ul class="ultima-menu animated fadeInDown">

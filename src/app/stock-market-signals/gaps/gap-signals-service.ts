@@ -10,7 +10,7 @@ import * as _ from 'lodash';
 
 @Injectable()
 export class GapSignalsService {
-    private _stockEQuotesUrl = 'http://localhost:4000/gapsignals';
+    private _stockEQuotesUrl = 'http://localhost:4000/api/gapsignals';
 
     constructor(private _http: Http) { }
 

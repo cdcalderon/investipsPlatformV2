@@ -10,7 +10,7 @@ import * as _ from 'lodash';
 
 @Injectable()
 export class ThreeArrowsService {
-    private _stockEQuotesUrl = 'http://localhost:4000/threearrowsignals';
+    private _stockEQuotesUrl = 'http://localhost:4000/api/threearrowsignals';
 
     constructor(private _http: Http) { }
 

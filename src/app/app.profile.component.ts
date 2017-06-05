@@ -10,7 +10,7 @@ import {AppComponent} from './app.component';
         <div class="profile" [ngClass]="{'profile-expanded':active}">
             <div class="profile-image"></div>
             <a href="#" (click)="onClick($event)">
-                <span class="profile-name">Jane Williams</span>
+                <span class="profile-name">Carlos Calderon</span>
                 <i class="material-icons">keyboard_arrow_down</i>
             </a>
         </div>
