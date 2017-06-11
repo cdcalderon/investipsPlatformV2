@@ -83,11 +83,28 @@ export class TradingviewComponent implements OnInit, AfterViewInit{
 
         widget.onChartReady(function() {
 
-            widget.chart().createStudy('Stochastic', false, false, [14, 5, 5], null, {'%d.color' : '#E3FFCA', '%k.color' : '#00FF00'});
+            widget.chart().createStudy(
+                'Stochastic',
+                false,
+                false,
+                [14, 5, 5],
+                null,
+                {'%d.color' : '#E3FFCA', '%k.color' : '#00FF00'}
+            );
 
-            widget.chart().createStudy('MACD', false, false, [8, 17, 'close', 9], null, {'macd.color' : '#00FF00', 'signal.color' : '#fffa00', 'histogram.color' : '#00F9FF'});
+            widget.chart().createStudy(
+                'MACD',
+                false,
+                false,
+                [8, 17, 'close', 9],
+                null,
+                {'macd.color' : '#00FF00', 'signal.color' : '#fffa00', 'histogram.color' : '#00F9FF'}
+            );
 
-            widget.chart().createStudy('Moving Average', false, true, [
+            widget.chart().createStudy(
+                'Moving Average',
+                false,
+                true, [
                     10
                 ], function (guid) {
                     console.log(guid);
