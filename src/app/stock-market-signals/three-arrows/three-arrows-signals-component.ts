@@ -43,6 +43,7 @@ export class ThreeArrowsComponent implements OnInit {
 
     onSignalSelect(event) {
         console.log(event.data);
+        this._router.navigate(['/marketchart', event.data.symbol, 'greenarrows']);
     }
 
     navigateToChart(signal:any) {

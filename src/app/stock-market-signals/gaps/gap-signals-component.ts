@@ -22,8 +22,8 @@ export class GapSignalsComponent implements OnInit {
     }
 
     ngOnInit() {
-        let from = '01/01/16';
-        let to = '01/01/17';
+        const from = '01/01/16';
+        const to = '01/01/17';
         this._gapSignalsService.getGapSignals(from, to, 'aapl')
             .subscribe(
                 stockSignals => {
@@ -37,15 +37,16 @@ export class GapSignalsComponent implements OnInit {
 
     }
 
-    onSignalSelect(event){
+    onSignalSelect(event) {
         console.log(event.data);
+        this._router.navigate(['/marketchart', event.data.symbol, 'gap']);
     }
 
     navigateToChart(signal: any) {
         console.log(signal.symbol);
-        //this._router.navigate(['/marketchart']);
+        // this._router.navigate(['/marketchart']);
         this._router.navigate(['/marketchart', signal.symbol, 'gap']);
-        //window.location.href = `http://localhost:4200/marketchart`;
+        // window.location.href = `http://localhost:4200/marketchart`;
         // window.location.href = `http://localhost:4200/marketchart/${signal.symbol}`;
     }
 }

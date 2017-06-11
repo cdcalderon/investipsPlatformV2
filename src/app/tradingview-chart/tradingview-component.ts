@@ -20,8 +20,7 @@ export class TradingviewComponent implements OnInit, AfterViewInit{
     renderTradingViewComponent() {
        // TradingView.onready(function() {
 
-        var udf_datafeed = new Datafeeds.UDFCompatibleDatafeed('http://localhost:4000', null, this.marksType);
-
+        const udf_datafeed = new Datafeeds.UDFCompatibleDatafeed('http://localhost:4000', null, this.marksType);
 
             const widget = new TradingView.widget({
                 fullscreen: true,
@@ -79,8 +78,6 @@ export class TradingviewComponent implements OnInit, AfterViewInit{
                 }
             });
 
-
-
         widget.onChartReady(function() {
 
             widget.chart().createStudy(
@@ -128,9 +125,7 @@ export class TradingviewComponent implements OnInit, AfterViewInit{
 
         }); // end of widget.onChartReady
 
-        //
         // }); // end of TradingView.onready
-
     }
 
     ngAfterViewInit() {
@@ -141,6 +136,4 @@ export class TradingviewComponent implements OnInit, AfterViewInit{
     reloadPage() {
         window.location.reload();
     }
-
-
 }
