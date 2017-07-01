@@ -15,7 +15,7 @@ export class StockMarketChartComponent implements OnInit {
 
     constructor(private _route: ActivatedRoute, private componentFactoryResolver: ComponentFactoryResolver) {}
     ngOnInit() {
-        //const childComponent = this.componentFactoryResolver.resolveComponentFactory(TradingviewComponent);
+        // const childComponent = this.componentFactoryResolver.resolveComponentFactory(TradingviewComponent);
 
         // setTimeout(() => {
         //     this.parent.createComponent(childComponent);

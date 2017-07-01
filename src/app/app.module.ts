@@ -104,6 +104,7 @@ import {ThreeArrowsService} from './stock-market-signals/three-arrows/three-arro
 
 
 import {TradingviewComponent} from './tradingview-chart/tradingview-component';
+import {StockChartSignalsService} from './tradingview-chart/stock-chart-signals-service';
 
 @NgModule({
     imports: [
@@ -206,8 +207,16 @@ import {TradingviewComponent} from './tradingview-chart/tradingview-component';
 
     ],
     providers: [
-        {provide: LocationStrategy, useClass: HashLocationStrategy},
-        CarService, CountryService, EventService, NodeService, GapSignalsService, ThreeArrowsService
+        {
+            provide: LocationStrategy,
+            useClass: HashLocationStrategy},
+            CarService,
+            CountryService,
+            EventService,
+            NodeService,
+            GapSignalsService,
+            ThreeArrowsService,
+            StockChartSignalsService
     ],
     bootstrap:[AppComponent]
 })

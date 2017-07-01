@@ -10,7 +10,8 @@ import * as _ from 'lodash';
 
 @Injectable()
 export class GapSignalsService {
-    private _stockEQuotesUrl = 'http://localhost:4000/api/gapsignals';
+    // private _stockEQuotesUrl = 'http://localhost:4000/api/gapsignals';
+    private _stockEQuotesUrl = 'https://warm-journey-46979.herokuapp.com/api/gapsignals';
 
     constructor(private _http: Http) { }
 
@@ -22,7 +23,7 @@ export class GapSignalsService {
 
         return this._http.get(this._stockEQuotesUrl, { search: params })
             .map((response: Response) =>  {
-                return <IGapSignal[]> response.json()
+                return <IGapSignal[]> response.json();
             })
             .do(data => console.log('All Signals: ' + JSON.stringify(data)))
             .catch(this.handleError);
@@ -34,7 +35,8 @@ export class GapSignalsService {
             .map((value, key) => ({
                 symbol: key,
                 quantity: value.length,
-                signals: value
+                signals: value,
+                close: value[value.length - 1].close
             }))
             .value();
     }

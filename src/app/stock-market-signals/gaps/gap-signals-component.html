@@ -1,12 +1,15 @@
-<h1>Stock Signals</h1>
+<div class="ui-g ui-fluid" >
 <p-dataTable [value]="groupedSignals"
              [(selection)]="selectedGapSignal"
              selectionMode="single"
              (onRowSelect)="onSignalSelect($event)"
-             expandableRows="true">
+             expandableRows="true"
+             scrollable="true"
+             scrollHeight="900px">
 
     <p-column expander="true" styleClass="col-icon"></p-column>
     <p-column field="symbol" header="Symbol"></p-column>
+    <p-column field="close" header="Last Signal Close"></p-column>
     <p-column field="quantity" header="Quantity"></p-column>
     <p-column styleClass="col-button">
         <ng-template let-sig="rowData" pTemplate="body">

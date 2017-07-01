@@ -3,6 +3,7 @@ import {Http} from '@angular/http';
 import { GapSignalsService } from './gap-signals-service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {IGapSignal} from './IGapSignals';
+import * as _ from 'lodash';
 
 @Component({
     selector: 'app-gap-signals',
@@ -17,9 +18,7 @@ export class GapSignalsComponent implements OnInit {
 
 
     constructor(private _gapSignalsService: GapSignalsService,
-                private _router: Router) {
-
-    }
+                private _router: Router) {}
 
     ngOnInit() {
         const from = '01/01/16';
@@ -29,12 +28,11 @@ export class GapSignalsComponent implements OnInit {
                 stockSignals => {
                     this.gapSignals = stockSignals;
                     this.groupedSignals =
-                        this._gapSignalsService.getGroupedSignalsBySymbol(this.gapSignals);
+                        _.orderBy(this._gapSignalsService.getGroupedSignalsBySymbol(this.gapSignals), ['close'], ['desc']);
                     console.log(this.groupedSignals);
                 },
                 error => this.errorMessage = <any>error
             );
-
     }
 
     onSignalSelect(event) {

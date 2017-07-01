@@ -1,11 +1,8 @@
-import {
-    Component, OnInit, AfterViewInit, ViewChild, ViewContainerRef, ComponentFactoryResolver,
-    Input
-} from '@angular/core';
-import {Http} from '@angular/http';
+import {Component, OnInit } from '@angular/core';
 import {ThreeArrowsService} from './three-arrows-signals-service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {IThreeArrowSignal} from './IThreeArrowSignal';
+import * as _ from 'lodash';
 
 @Component({
     selector: 'app-three-arrows',
@@ -33,7 +30,7 @@ export class ThreeArrowsComponent implements OnInit {
                 stockSignals => {
                     this.stockSignals = stockSignals;
                     this.groupedSignals =
-                        this._stockSignalsService.getGroupedSignalsBySymbol(this.stockSignals);
+                        _.orderBy(this._stockSignalsService.getGroupedSignalsBySymbol(this.stockSignals), ['close'], ['desc']);
                     console.log(this.groupedSignals);
                 },
                 error => this.errorMessage = <any>error

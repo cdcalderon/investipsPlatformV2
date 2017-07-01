@@ -10,8 +10,8 @@ import * as _ from 'lodash';
 
 @Injectable()
 export class ThreeArrowsService {
-    private _stockEQuotesUrl = 'http://localhost:4000/api/threearrowsignals';
-
+    // private _stockEQuotesUrl = 'http://localhost:4000/api/threearrowsignals';
+    private _stockEQuotesUrl = 'https://warm-journey-46979.herokuapp.com/api/threearrowsignals';
     constructor(private _http: Http) { }
 
     getStockSignals(from: string, to: string, symbol: string): Observable<IThreeArrowSignal[]> {
@@ -34,7 +34,8 @@ export class ThreeArrowsService {
             .map((value, key) => ({
                 symbol: key,
                 quantity: value.length,
-                signals: value
+                signals: value,
+                close: value[value.length - 1].close
             }))
             .value();
     }
