@@ -15,6 +15,11 @@ export class StockChartSignalsService {
     // private _stockThreeArrowSignalsUrl = 'https://warm-journey-46979.herokuapp.com/api/threearrowsignals';
 
     private _stockGapSignalsUrl = 'http://localhost:4000/api/udf/marksgapswithpreviousquote';
+    private _stockThreeArrowSignalsUrl = 'http://localhost:4000/api/udf/marksgreenarrowsprojections';
+   // private _stockGapSignalsUrl = 'https://warm-journey-46979.herokuapp.com/api/udf/marksgapswithpreviousquote';
+   // private _stockThreeArrowSignalsUrl = 'https://warm-journey-46979.herokuapp.com/api/udf/marksgreenarrowsprojections';
+
+
     fourMonthAgo = Math.floor(new Date().valueOf() / 1000 - 4 * 30 * 24 * 60 * 60);
     today = Math.floor(new Date().valueOf() / 1000);
     constructor(private _http: Http) { }
@@ -41,6 +46,20 @@ export class StockChartSignalsService {
         //     subject.complete();
         // }, 1000);
         // return subject;
+    }
+
+    getThreeArrowSignals(from: string, to: string, symbol: string): Observable<IStockChartSignal[]> {
+        const params = new URLSearchParams();
+        params.set('to', to);
+        params.set('from', from);
+        params.set('symbol', symbol);
+
+        return this._http.get(this._stockThreeArrowSignalsUrl, { search: params })
+            .map((response: Response) =>  {
+                return <IStockChartSignal[]> response.json();
+            })
+            .do(data => console.log('All marksgreenarrowsprojections: ' + JSON.stringify(data)))
+            .catch(this.handleError);
     }
 
     private handleError(error: Response) {

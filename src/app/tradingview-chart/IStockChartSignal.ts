@@ -14,4 +14,8 @@ export interface IStockChartSignal {
     retracement618: number;
     retracement100: number;
     retracement1618: number;
+    confirmationEntryPrice: number;
+    a:number;
+    b:number;
+    c:number;
 }
