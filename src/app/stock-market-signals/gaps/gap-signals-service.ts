@@ -22,7 +22,7 @@ export class GapSignalsService {
 
     constructor(private _http: Http) { }
 
-    getGapSignals(from: string, to: string, pagingInfo: any): Observable<SignalsInfo> {
+    getGapSignals(from: string, to: string, pagingInfo: any, gapsQuery: any): Observable<SignalsInfo> {
         var headers = new Headers();
         headers.append('Content-Type', 'application/json');
         const params = new URLSearchParams();
@@ -30,13 +30,14 @@ export class GapSignalsService {
         let fromDate: any;
         if(!from || !to) {
             toDate =  this.monthAdd(new Date(), 0);
-            fromDate = this.monthAdd(new Date(), -1);
+            fromDate = this.monthAdd(new Date(), -3);
         } else {
-            fromDate = this.monthAdd(new Date(from), -1);
+            fromDate = this.monthAdd(new Date(from), 0);
             toDate =  this.monthAdd(new Date(to), 0);
         }
 
         let dbQuery = {
+            query: gapsQuery,
             exchange: 'NasdaqNM',
             pagingInfo: pagingInfo,
             from: fromDate,
@@ -71,6 +72,10 @@ export class GapSignalsService {
             .groupBy(x => x.symbol)
             .map((value, key) => ({
                 symbol: key,
+                exchange: value[0].exchange,
+                sector: value[0].sector,
+                industry: value[0].industry,
+                marketCap: value[0].marketCap,
                 signals: value,
                 quantity: value.length,
                 close: value[value.length - 1].close
