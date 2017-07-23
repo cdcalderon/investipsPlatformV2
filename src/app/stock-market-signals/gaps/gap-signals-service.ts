@@ -12,7 +12,7 @@ import {IGapQuote} from "./IGapQuote";
 
 @Injectable()
 export class GapSignalsService {
-     private _stockEQuotesUrl = 'http://localhost:4000/api/gapsignals';
+    private _stockEQuotesUrl = 'http://localhost:4000/api/gapsignals';
     //private _stockEQuotesUrl = 'https://warm-journey-46979.herokuapp.com/api/gapsignals';
    // private _gapsHistoricals = 'https://warm-journey-46979.herokuapp.com/api/udf/historicalgaps';
     private _gapsHistoricals = 'http://localhost:4000/api/udf/historicalgaps';
@@ -22,7 +22,7 @@ export class GapSignalsService {
 
     constructor(private _http: Http) { }
 
-    getGapSignals(from: string, to: string, pagingInfo: any, gapsQuery: any): Observable<SignalsInfo> {
+    getGapSignals(from: Date, to: Date, pagingInfo: any, gapsQuery: any): Observable<SignalsInfo> {
         var headers = new Headers();
         headers.append('Content-Type', 'application/json');
         const params = new URLSearchParams();
@@ -30,10 +30,10 @@ export class GapSignalsService {
         let fromDate: any;
         if(!from || !to) {
             toDate =  this.monthAdd(new Date(), 0);
-            fromDate = this.monthAdd(new Date(), -3);
+            fromDate = this.monthAdd(new Date(), -10);
         } else {
-            fromDate = this.monthAdd(new Date(from), 0);
-            toDate =  this.monthAdd(new Date(to), 0);
+            fromDate = this.monthAdd(from, 0);
+            toDate =  this.monthAdd(to, 0);
         }
 
         let dbQuery = {
@@ -81,15 +81,6 @@ export class GapSignalsService {
                 close: value[value.length - 1].close
             }))
             .value();
-    }
-
-    getGapSymbols(partial: string) : Observable<string[]> {
-        return this._http.get(this.symbolsURL + partial, )
-            .map((response: Response) =>  {
-                return <string[]> response.json();
-            })
-            .do(data => console.log('filterted Symbols: ' + JSON.stringify(data)))
-            .catch(this.handleError);
     }
 
     private handleError(error: Response) {

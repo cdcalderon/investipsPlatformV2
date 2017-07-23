@@ -1,0 +1,47 @@
+<div class="ui-g-12" style="padding-bottom: 0">
+    <div class="ui-g-2">
+        <p-calendar [maxDate]="toFilter" [(ngModel)]="fromFilter" dateFormat="dd.mm.yy"></p-calendar>
+
+    </div>
+    <div class="ui-g-2">
+        <p-calendar [minDate]="fromFilter"  [(ngModel)]="toFilter" dateFormat="dd.mm.yy"></p-calendar>
+
+    </div>
+    <div class="ui-g-3" style="position: relative;top:-45px">
+        <h4>Price Range: {{rangeValues[0] + ' - ' + rangeValues[1]}}</h4>
+        <p-slider [max]="2000" [(ngModel)]="rangeValues"  [range]="true"></p-slider>
+    </div>
+    <div class="ui-g-2">
+        <p-multiSelect [options]="caps" [(ngModel)]="selectedCaps"></p-multiSelect>
+    </div>
+    <div class="ui-g-3">
+        <p-selectButton [style]="{'font-size': '13px' }"
+                        multiple="multiple"
+                        [options]="exchanges"
+                        [(ngModel)]="selectedExchanges">
+        </p-selectButton>
+    </div>
+</div>
+
+<div class="ui-g-12" style="position: relative;top:-25px;padding-top:0;padding-bottom: 0" >
+    <div class="ui-g-11" style="padding-top:0;padding-bottom: 0">
+        <p-autoComplete [(ngModel)]="selectedSymbols"
+                        [suggestions]="filteredSymbolsMultiple"
+                        [minLength]="1"
+                        placeholder="Symbols"
+                        (completeMethod)="filterSymbolsMultiple($event)"
+                        [multiple]="true">
+
+        </p-autoComplete>
+    </div>
+    <div class="ui-g-1">
+        <button
+                class="ui-button-success"
+                style="border-radius: 11px;width: 100px;height: 27px"
+                pButton
+                type="button"
+                (click)="filterSignals()">
+            <span style="position:relative;top: 5px;">Filter</span>
+        </button>
+    </div>
+</div>

@@ -6,6 +6,7 @@ import {IGapSignal} from './IGapSignals';
 import {SignalsInfo} from './SignalsInfo';
 import * as _ from 'lodash';
 import {SelectItem} from 'primeng/primeng';
+import {IFilterCriteria} from "../../shared/filter-criteria-model";
 
 @Component({
     selector: 'app-gap-signals',
@@ -24,6 +25,10 @@ export class GapSignalsComponent implements OnInit {
     gapSignals: SignalsInfo;
     selectedGapSignal: IGapSignal;
     groupedSignals: any;
+    filterCriteria: IFilterCriteria;
+
+
+
     exchanges: SelectItem[] = [
         {label:'NYSE', value: 'nyse'},
         {label:'NASDAQ',value:'nasdaq'},
@@ -55,7 +60,7 @@ export class GapSignalsComponent implements OnInit {
             currentPage: this.currentPage
         };
 
-        this._gapSignalsService.getGapSignals(this.fromFilter, this.toFilter, pagingInfo, {})
+        this._gapSignalsService.getGapSignals(null, null, pagingInfo, {})
                         .subscribe(
                             stockSignals => {
                                 this.gapSignals = stockSignals;
@@ -80,7 +85,7 @@ export class GapSignalsComponent implements OnInit {
     paginate(event) {
         this.currentPage = event.page + 1;
         console.log(event);
-        this.searchGaps();
+        this.searchGaps(this.filterCriteria);
     }
 
     navigateToChart(signal: any) {
@@ -89,17 +94,6 @@ export class GapSignalsComponent implements OnInit {
         this._router.navigate(['/marketchart', signal.symbol, 'gap']);
         // window.location.href = `http://localhost:4200/marketchart`;
         // window.location.href = `http://localhost:4200/marketchart/${signal.symbol}`;
-    }
-
-    filterSymbolsMultiple(event) {
-        this.filteredSymbolsMultiple = [];
-        let query = event.query;
-        this._gapSignalsService.getGapSymbols(event.query)
-            .subscribe(symbols => {
-                    this.filteredSymbolsMultiple = symbols
-                },
-                error => this.errorMessage = <any>error
-            );
     }
 
     signalAppender(currentPage, totalSignals, pageSize, signalCollection) {
@@ -117,10 +111,12 @@ export class GapSignalsComponent implements OnInit {
         return [...offsetStart, ...signalCollection, ...offsetEnd];
     }
 
-    searchGaps() {
-        this.gapsQuery = this.createQueryFilter();
-        const from = this.fromFilter;
-        const to = this.toFilter;
+    searchGaps(filterCriteria: IFilterCriteria) {
+        this.filterCriteria = filterCriteria;
+
+        this.gapsQuery = this.createQueryFilter(this.filterCriteria);
+        const from = filterCriteria.from;
+        const to = filterCriteria.to;
         let pagingInfo = {
             pageSize: this.pageSize,
             currentPage: this.currentPage
@@ -146,16 +142,16 @@ export class GapSignalsComponent implements OnInit {
 
     }
 
-    createQueryFilter() {
+    createQueryFilter(filterCriterial: IFilterCriteria) {
         let queryFilter: any = {};
-        if(this.selectedExchanges.length > 0){
-            queryFilter.exchanges = this.selectedExchanges;
+        if(filterCriterial.exchanges.length > 0){
+            queryFilter.exchanges = filterCriterial.exchanges;
         }
-        if(this.selectedCaps.length > 0) {
-            queryFilter.marketCaps = this.selectedCaps;
+        if(filterCriterial.caps.length > 0) {
+            queryFilter.marketCaps = filterCriterial.caps;
         }
-        if(this.selectedSymbols.length > 0) {
-            queryFilter.symbols = this.selectedSymbols;
+        if(filterCriterial.symbols.length > 0) {
+            queryFilter.symbols = filterCriterial.symbols;
         }
         return queryFilter;
     }

@@ -101,10 +101,11 @@ import {GapSignalsComponent} from './stock-market-signals/gaps/gap-signals-compo
 import {GapSignalsService} from './stock-market-signals/gaps/gap-signals-service';
 import {ThreeArrowsComponent} from './stock-market-signals/three-arrows/three-arrows-signals-component';
 import {ThreeArrowsService} from './stock-market-signals/three-arrows/three-arrows-signals-service';
-
+import {StockSymbolService} from './common/stock-symbols-service';
 
 import {TradingviewComponent} from './tradingview-chart/tradingview-component';
 import {StockChartSignalsService} from './tradingview-chart/stock-chart-signals-service';
+import {SignalFilterComponent} from './signal-filter/signal-filter-component';
 
 @NgModule({
     imports: [
@@ -204,7 +205,7 @@ import {StockChartSignalsService} from './tradingview-chart/stock-chart-signals-
         GapSignalsComponent,
         ThreeArrowsComponent,
         TradingviewComponent,
-
+        SignalFilterComponent
     ],
     providers: [
         {
@@ -216,7 +217,8 @@ import {StockChartSignalsService} from './tradingview-chart/stock-chart-signals-
             NodeService,
             GapSignalsService,
             ThreeArrowsService,
-            StockChartSignalsService
+            StockChartSignalsService,
+            StockSymbolService
     ],
     bootstrap:[AppComponent]
 })
