@@ -17,9 +17,6 @@ export class GapSignalsService {
    // private _gapsHistoricals = 'https://warm-journey-46979.herokuapp.com/api/udf/historicalgaps';
     private _gapsHistoricals = 'http://localhost:4000/api/udf/historicalgaps';
 
-    private symbolsURL = 'http://localhost:4600/api/udf/symbolspartial?part=';
-
-
     constructor(private _http: Http) { }
 
     getGapSignals(from: Date, to: Date, pagingInfo: any, gapsQuery: any): Observable<SignalsInfo> {

@@ -34,23 +34,8 @@ export class GapSignalsComponent implements OnInit {
         {label:'NASDAQ',value:'nasdaq'},
         {label:'AMEX', value:'amex'}
     ];
-    selectedExchanges: string[] = [];
-    rangeValues: number[] = [0,2000];
-    caps: SelectItem[] = [
-        {label:'Small', value:'s'},
-        {label:'Mid',value:'m'},
-        {label:'Large', value:'l' }
-    ];
 
-    selectedSymbols:string[] = [];
-    selectedCaps: string[] = [];
-
-    filteredSymbolsMultiple: any[];
     gapsQuery: any = {};
-
-    fromFilter: any;
-    toFilter: any;
-
     constructor(private _gapSignalsService: GapSignalsService,
                 private _router: Router) {}
 
