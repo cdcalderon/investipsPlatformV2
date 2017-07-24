@@ -3,6 +3,8 @@ import {ThreeArrowsService} from './three-arrows-signals-service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {IThreeArrowSignal} from './IThreeArrowSignal';
 import * as _ from 'lodash';
+import {IFilterCriteria} from "../../shared/filter-criteria-model";
+import {ISignalsThreeArrow} from "./ISignalsThreeArrow";
 
 @Component({
     selector: 'app-three-arrows',
@@ -11,10 +13,17 @@ import * as _ from 'lodash';
 })
 export class ThreeArrowsComponent implements OnInit {
     errorMessage: string;
-    stockSignals: IThreeArrowSignal[];
+    stockSignals: ISignalsThreeArrow;
     selectedSignal: IThreeArrowSignal;
     groupedSignals: any;
     marksType= 'gap';
+    filterCriteria: IFilterCriteria;
+    gapsQuery: any = {};
+    pageSize = 25;
+    currentPage = 1;
+    totalSignalsInCurrentPage: number;
+    totalGaps = 0;
+    numberOfPages: number;
 
 
     constructor(private _stockSignalsService: ThreeArrowsService,
@@ -23,14 +32,21 @@ export class ThreeArrowsComponent implements OnInit {
     }
 
     ngOnInit() {
-        const from = '01/01/16';
-        const to = '01/01/17';
-        this._stockSignalsService.getStockSignals(from, to, 'aapl')
+        let pagingInfo = {
+            pageSize: this.pageSize,
+            currentPage: this.currentPage
+        };
+
+        this._stockSignalsService.getStockSignals(null, null, pagingInfo, {})
             .subscribe(
                 stockSignals => {
                     this.stockSignals = stockSignals;
                     this.groupedSignals =
                         _.orderBy(this._stockSignalsService.getGroupedSignalsBySymbol(this.stockSignals), ['close'], ['desc']);
+                    this.totalGaps = stockSignals.total;
+                    this.numberOfPages = Math.ceil(stockSignals.total / this.pageSize);
+                    this.totalSignalsInCurrentPage = stockSignals.docs.length;
+                    console.log("signals");
                     console.log(this.groupedSignals);
                 },
                 error => this.errorMessage = <any>error
@@ -48,6 +64,50 @@ export class ThreeArrowsComponent implements OnInit {
         this._router.navigate(['/marketchart', signal.symbol, 'greenarrows']);
         // window.location.href = `http://localhost:4200/stockquote/${signal.symbol}`;
     }
+
+    searchThreeArrowSignals(filterCriteria: IFilterCriteria) {
+        this.filterCriteria = filterCriteria;
+
+        this.gapsQuery = this.createQueryFilter(this.filterCriteria);
+        const from = filterCriteria.from;
+        const to = filterCriteria.to;
+        let pagingInfo = {
+            pageSize: this.pageSize,
+            currentPage: this.currentPage
+        };
+
+        this._stockSignalsService.getStockSignals(from, to, pagingInfo, this.gapsQuery)
+            .subscribe(
+                stockSignals => {
+                    this.stockSignals = stockSignals;
+                    this.groupedSignals =
+                        _.orderBy(this._stockSignalsService.getGroupedSignalsBySymbol(this.stockSignals), ['close'], ['desc']);
+                    console.log(this.groupedSignals);
+                    this.totalGaps = stockSignals.total;
+                    this.numberOfPages = Math.ceil(stockSignals.total / this.pageSize);
+                    this.totalSignalsInCurrentPage = stockSignals.docs.length;
+                    console.log(this.totalGaps);
+                    console.log(this.groupedSignals);
+                },
+                error => this.errorMessage = <any>error
+            );
+    }
+
+    createQueryFilter(filterCriterial: IFilterCriteria) {
+        let queryFilter: any = {};
+        if(filterCriterial.exchanges.length > 0){
+            queryFilter.exchanges = filterCriterial.exchanges;
+        }
+        if(filterCriterial.caps.length > 0) {
+            queryFilter.marketCaps = filterCriterial.caps;
+        }
+        if(filterCriterial.symbols.length > 0) {
+            queryFilter.symbols = filterCriterial.symbols;
+        }
+        return queryFilter;
+    }
+
+
 }
 
 

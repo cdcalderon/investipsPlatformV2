@@ -1,68 +1,6 @@
 <div class="ui-g ui-fluid" >
-    <!--<div class="ui-g-12" style="padding-bottom: 0">-->
-        <!--<div class="ui-g-2">-->
-            <!--<p-calendar [maxDate]="toFilter" [(ngModel)]="fromFilter" dateFormat="dd.mm.yy"></p-calendar>-->
-
-        <!--</div>-->
-        <!--<div class="ui-g-2">-->
-            <!--<p-calendar [minDate]="fromFilter"  [(ngModel)]="toFilter" dateFormat="dd.mm.yy"></p-calendar>-->
-
-        <!--</div>-->
-        <!--<div class="ui-g-2" style="position: relative;top:-45px">-->
-            <!--<h4>Price Range: {{rangeValues[0] + ' - ' + rangeValues[1]}}</h4>-->
-            <!--<p-slider [max]="2000" [(ngModel)]="rangeValues"  [range]="true"></p-slider>-->
-        <!--</div>-->
-        <!--<div class="ui-g-2">-->
-            <!--<p-multiSelect [options]="caps" [(ngModel)]="selectedCaps"></p-multiSelect>-->
-        <!--</div>-->
-        <!--<div class="ui-g-2">-->
-            <!--<p-selectButton [style]="{'font-size': '12px' }"-->
-                            <!--multiple="multiple"-->
-                            <!--[options]="exchanges"-->
-                            <!--[(ngModel)]="selectedExchanges">-->
-            <!--</p-selectButton>-->
-
-        <!--</div>-->
-    <!--</div>-->
-
-    <!--<div class="ui-g-12" style="position: relative;top:-25px;padding-top:0;padding-bottom: 0" >-->
-        <!--<div class="ui-g-11" style="padding-top:0;padding-bottom: 0">-->
-            <!--<p-autoComplete [(ngModel)]="selectedSymbols"-->
-                            <!--[suggestions]="filteredSymbolsMultiple"-->
-                            <!--[minLength]="1"-->
-                            <!--placeholder="Symbols"-->
-                            <!--(completeMethod)="filterSymbolsMultiple($event)"-->
-                            <!--[multiple]="true">-->
-
-            <!--</p-autoComplete>-->
-        <!--</div>-->
-        <!--<button-->
-                <!--class="ui-button-success ui-g-1"-->
-                <!--style="border-radius: 11px;width: 100px;height: 27px"-->
-                <!--pButton-->
-                <!--type="button"-->
-                <!--(click)="searchGaps()">-->
-            <!--<span style="position:relative;top: 5px;">Filter</span>-->
-        <!--</button>-->
-
-    <!--</div>-->
-
-
-
 
     <signal-filter class="sig-filter" (applyFilter)="searchGaps($event)"></signal-filter>
-
-
-
-
-
-
-    <!--<div>number of pages: <h2>{{numberOfPages}}</h2></div>-->
-
-    <!--<div>Page size: <h2>{{pageSize}}</h2></div>-->
-    <!--<div>Total Gaps Signals: <h2>{{totalGaps}}</h2></div>-->
-    <!--<div>Total Symbols: <h2>{{totalSignalsInCurrentPage}}</h2></div>-->
-
     <div class="totalSignals">Total Gaps Signals: <strong>{{totalGaps}}</strong></div>
 
     <p-dataTable [value]="groupedSignals"

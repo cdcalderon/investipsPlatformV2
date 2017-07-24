@@ -1,4 +1,7 @@
-<h1>Stock Signals</h1>
+<div class="ui-g ui-fluid" >
+
+<signal-filter class="sig-filter" (applyFilter)="searchThreeArrowSignals($event)"></signal-filter>
+<div class="totalSignals">Total Signals: <strong>{{totalGaps}}</strong></div>
 
 <p-dataTable [value]="groupedSignals"
              [(selection)]="selectedSignal"
@@ -44,3 +47,5 @@
         </div>
     </ng-template>
 </p-dataTable>
+
+</div>
