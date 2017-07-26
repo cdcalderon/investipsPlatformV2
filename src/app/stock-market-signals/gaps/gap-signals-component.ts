@@ -14,7 +14,6 @@ import {IFilterCriteria} from "../../shared/filter-criteria-model";
     styleUrls: [ './gap-signals-component.scss']
 })
 export class GapSignalsComponent implements OnInit {
-    currentFirst: number = 0;
     globalPageSize = 25;
     pageSize = 25;
     currentPage = 1;
@@ -26,8 +25,6 @@ export class GapSignalsComponent implements OnInit {
     selectedGapSignal: IGapSignal;
     groupedSignals: any;
     filterCriteria: IFilterCriteria;
-
-
 
     exchanges: SelectItem[] = [
         {label:'NYSE', value: 'nyse'},
@@ -139,19 +136,6 @@ export class GapSignalsComponent implements OnInit {
             queryFilter.symbols = filterCriterial.symbols;
         }
         return queryFilter;
-    }
-
-    filterGaps() {
-        // this._gapSignalsService.getGapSignals(from, to, 'aapl')
-        //     .subscribe(
-        //         stockSignals => {
-        //             this.gapSignals = stockSignals;
-        //             this.groupedSignals =
-        //                 _.orderBy(this._gapSignalsService.getGroupedSignalsBySymbol(this.gapSignals), ['close'], ['desc']);
-        //             console.log(this.groupedSignals);
-        //         },
-        //         error => this.errorMessage = <any>error
-        //     );
     }
 }
 

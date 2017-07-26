@@ -29,8 +29,6 @@ export class SignalFilterComponent {
         {label:'Large', value:'l' }
     ];
 
-
-
     filteredSymbolsMultiple: any[];
     gapsQuery: any = {};
 

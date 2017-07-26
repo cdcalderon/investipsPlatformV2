@@ -4,7 +4,6 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/catch';
-import { IThreeArrowSignal } from './IThreeArrowSignal';
 
 import * as _ from 'lodash';
 import {ISignalsThreeArrow} from "./ISignalsThreeArrow";
