@@ -22,7 +22,7 @@ export class SignalFilterComponent {
         {label:'AMEX', value:'amex'}
     ];
 
-    rangeValues: number[] = [0,2000];
+    rangeValues: number[] = [1,2000];
     caps: SelectItem[] = [
         {label:'Small', value:'s'},
         {label:'Mid',value:'m'},
@@ -38,13 +38,14 @@ export class SignalFilterComponent {
     constructor(private _stockSymbolsService: StockSymbolService){}
 
     filterSignals() {
-        let t = this.fromFilter;
         let filterCriterial: IFilterCriteria = {
             symbols: this.selectedSymbols,
             exchanges: this.selectedExchanges,
             caps: this.selectedCaps,
             from: this.fromFilter,
-            to: this.toFilter
+            to: this.toFilter,
+            lowPriceRange: this.rangeValues[0],
+            highPriceRange: this.rangeValues[1]
         };
 
         this.applyFilter.emit(filterCriterial);

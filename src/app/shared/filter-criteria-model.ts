@@ -4,4 +4,6 @@ export interface IFilterCriteria {
     caps: string[];
     from: Date;
     to: Date;
+    lowPriceRange: number;
+    highPriceRange: number;
 }

@@ -1,6 +1,6 @@
 <div class="ui-g ui-fluid" >
 
-    <signal-filter class="sig-filter" (applyFilter)="searchGaps($event)"></signal-filter>
+    <signal-filter class="sig-filter" (applyFilter)="searchGaps($event, 'filter')"></signal-filter>
     <div class="totalSignals">Total Gaps Signals: <strong>{{totalGaps}}</strong></div>
 
     <p-dataTable [value]="groupedSignals"
@@ -53,7 +53,7 @@
         </ng-template>
     </p-dataTable>
 
-    <p-paginator
+    <p-paginator #paginator
             [style]="{'margin-top': '10px'}"
             class="sig-filter"
             [rows]="pageSize"

@@ -1,12 +1,13 @@
-import { Component, OnInit} from '@angular/core';
-import {Http} from '@angular/http';
+import { Component, OnInit, ViewChild} from '@angular/core';
 import { GapSignalsService } from './gap-signals-service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {IGapSignal} from './IGapSignals';
 import {SignalsInfo} from './SignalsInfo';
 import * as _ from 'lodash';
-import {SelectItem} from 'primeng/primeng';
+import {SelectItem, Paginator} from 'primeng/primeng';
 import {IFilterCriteria} from "../../shared/filter-criteria-model";
+
+
 
 @Component({
     selector: 'app-gap-signals',
@@ -14,6 +15,7 @@ import {IFilterCriteria} from "../../shared/filter-criteria-model";
     styleUrls: [ './gap-signals-component.scss']
 })
 export class GapSignalsComponent implements OnInit {
+    @ViewChild('paginator') paginator: Paginator;
     globalPageSize = 25;
     pageSize = 25;
     currentPage = 1;
@@ -67,7 +69,7 @@ export class GapSignalsComponent implements OnInit {
     paginate(event) {
         this.currentPage = event.page + 1;
         console.log(event);
-        this.searchGaps(this.filterCriteria);
+        this.searchGaps(this.filterCriteria, 'paginator');
     }
 
     navigateToChart(signal: any) {
@@ -93,12 +95,17 @@ export class GapSignalsComponent implements OnInit {
         return [...offsetStart, ...signalCollection, ...offsetEnd];
     }
 
-    searchGaps(filterCriteria: IFilterCriteria) {
+    searchGaps(filterCriteria: IFilterCriteria, source: string) {
+        if(source === 'filter') {
+            this.currentPage = 1;
+            this.paginator.first = 0;
+        }
+
         this.filterCriteria = filterCriteria;
 
         this.gapsQuery = this.createQueryFilter(this.filterCriteria);
-        const from = filterCriteria.from;
-        const to = filterCriteria.to;
+        const from = filterCriteria != null ? filterCriteria.from : null;
+        const to = filterCriteria != null ? filterCriteria.to: null;
         let pagingInfo = {
             pageSize: this.pageSize,
             currentPage: this.currentPage
@@ -126,15 +133,24 @@ export class GapSignalsComponent implements OnInit {
 
     createQueryFilter(filterCriterial: IFilterCriteria) {
         let queryFilter: any = {};
-        if(filterCriterial.exchanges.length > 0){
-            queryFilter.exchanges = filterCriterial.exchanges;
+        if(filterCriterial) {
+            if(filterCriterial.exchanges.length > 0){
+                queryFilter.exchanges = filterCriterial.exchanges;
+            }
+            if(filterCriterial.caps.length > 0) {
+                queryFilter.marketCaps = filterCriterial.caps;
+            }
+            if(filterCriterial.symbols.length > 0) {
+                queryFilter.symbols = filterCriterial.symbols;
+            }
+            if(filterCriterial.lowPriceRange > 0){
+                queryFilter.lowPriceRange = filterCriterial.lowPriceRange;
+            }
+            if(filterCriterial.highPriceRange > 0){
+                queryFilter.highPriceRange = filterCriterial.highPriceRange;
+            }
         }
-        if(filterCriterial.caps.length > 0) {
-            queryFilter.marketCaps = filterCriterial.caps;
-        }
-        if(filterCriterial.symbols.length > 0) {
-            queryFilter.symbols = filterCriterial.symbols;
-        }
+
         return queryFilter;
     }
 }
