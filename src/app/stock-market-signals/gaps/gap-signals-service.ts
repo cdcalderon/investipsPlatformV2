@@ -12,10 +12,10 @@ import {IGapQuote} from "./IGapQuote";
 
 @Injectable()
 export class GapSignalsService {
-    private _stockEQuotesUrl = 'http://localhost:4000/api/gapsignals';
-    //private _stockEQuotesUrl = 'https://warm-journey-46979.herokuapp.com/api/gapsignals';
-   // private _gapsHistoricals = 'https://warm-journey-46979.herokuapp.com/api/udf/historicalgaps';
-    private _gapsHistoricals = 'http://localhost:4000/api/udf/historicalgaps';
+   // private _stockEQuotesUrl = 'http://localhost:4000/api/gapsignals';
+    private _stockEQuotesUrl = 'https://warm-journey-46979.herokuapp.com/api/gapsignals';
+    private _gapsHistoricals = 'https://warm-journey-46979.herokuapp.com/api/udf/historicalgaps';
+   // private _gapsHistoricals = 'http://localhost:4000/api/udf/historicalgaps';
 
     constructor(private _http: Http) { }
 

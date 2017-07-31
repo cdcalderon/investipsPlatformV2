@@ -10,8 +10,8 @@ import {ISignalsThreeArrow} from "./ISignalsThreeArrow";
 
 @Injectable()
 export class ThreeArrowsService {
-     private _stockEQuotesUrl = 'http://localhost:4000/api/threearrowsignals';
-    //private _stockEQuotesUrl = 'https://warm-journey-46979.herokuapp.com/api/threearrowsignals';
+     //private _stockEQuotesUrl = 'http://localhost:4000/api/threearrowsignals';
+    private _stockEQuotesUrl = 'https://warm-journey-46979.herokuapp.com/api/threearrowsignals';
     constructor(private _http: Http) { }
 
     getStockSignals(from: Date, to: Date, pagingInfo: any, gapsQuery: any): Observable<ISignalsThreeArrow> {

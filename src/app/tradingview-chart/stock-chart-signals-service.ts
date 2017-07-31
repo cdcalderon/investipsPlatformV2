@@ -14,10 +14,10 @@ export class StockChartSignalsService {
     // private _stockGapSignalsUrl = 'https://warm-journey-46979.herokuapp.com/api/gapsignals';
     // private _stockThreeArrowSignalsUrl = 'https://warm-journey-46979.herokuapp.com/api/threearrowsignals';
 
-    private _stockGapSignalsUrl = 'http://localhost:4000/api/udf/marksgapswithpreviousquote';
-    private _stockThreeArrowSignalsUrl = 'http://localhost:4000/api/udf/marksgreenarrowsprojections';
-   // private _stockGapSignalsUrl = 'https://warm-journey-46979.herokuapp.com/api/udf/marksgapswithpreviousquote';
-   // private _stockThreeArrowSignalsUrl = 'https://warm-journey-46979.herokuapp.com/api/udf/marksgreenarrowsprojections';
+    // private _stockGapSignalsUrl = 'http://localhost:4000/api/udf/marksgapswithpreviousquote';
+    // private _stockThreeArrowSignalsUrl = 'http://localhost:4000/api/udf/marksgreenarrowsprojections';
+   private _stockGapSignalsUrl = 'https://warm-journey-46979.herokuapp.com/api/udf/marksgapswithpreviousquote';
+   private _stockThreeArrowSignalsUrl = 'https://warm-journey-46979.herokuapp.com/api/udf/marksgreenarrowsprojections';
 
 
     fourMonthAgo = Math.floor(new Date().valueOf() / 1000 - 4 * 30 * 24 * 60 * 60);

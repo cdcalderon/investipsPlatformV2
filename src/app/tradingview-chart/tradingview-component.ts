@@ -83,8 +83,8 @@ export class TradingviewComponent implements OnInit, AfterViewInit{
         const monthAdd = this.monthAdd;
         const that = this;
 
-         const udf_datafeed = new Datafeeds.UDFCompatibleDatafeed('http://localhost:4000', null, this.marksType);
-        //const udf_datafeed = new Datafeeds.UDFCompatibleDatafeed('https://warm-journey-46979.herokuapp.com', null, this.marksType);
+        // const udf_datafeed = new Datafeeds.UDFCompatibleDatafeed('http://localhost:4000', null, this.marksType);
+        const udf_datafeed = new Datafeeds.UDFCompatibleDatafeed('https://warm-journey-46979.herokuapp.com', null, this.marksType);
 
             const widget = new TradingView.widget({
                 fullscreen: true,
