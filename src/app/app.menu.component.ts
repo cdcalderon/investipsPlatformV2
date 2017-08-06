@@ -187,24 +187,59 @@ export class AppSubMenu {
 
     constructor(@Inject(forwardRef(() => AppComponent)) public app:AppComponent, public router: Router, public location: Location) {}
         
-    itemClick(event: Event, item: MenuItem, index: number) {
+    // itemClick(event: Event, item: MenuItem, index: number) {
+    //     //avoid processing disabled items
+    //     if(item.disabled) {
+    //         event.preventDefault();
+    //         return true;
+    //     }
+    //
+    //     //activate current item and deactivate active sibling if any
+    //     this.activeIndex = (this.activeIndex === index) ? null : index;
+    //
+    //     //execute command
+    //     if(item.command) {
+    //         if(!item.eventEmitter) {
+    //             item.eventEmitter = new EventEmitter();
+    //             item.eventEmitter.subscribe(item.command);
+    //         }
+    //
+    //         item.eventEmitter.emit({
+    //             originalEvent: event,
+    //             item: item
+    //         });
+    //     }
+    //
+    //     //prevent hash change
+    //     if(item.items || (!item.url && !item.routerLink)) {
+    //         event.preventDefault();
+    //     }
+    //
+    //     //hide menu
+    //     if(!item.items) {
+    //         if(this.app.isHorizontal())
+    //             this.app.resetMenu = true;
+    //         else
+    //             this.app.resetMenu = false;
+    //
+    //         this.app.overlayMenuActive = false;
+    //         this.app.staticMenuMobileActive = false;
+    //     }
+    // }
+
+    itemClick(event: Event, item: MenuItem, index: number) {
         //avoid processing disabled items
         if(item.disabled) {
             event.preventDefault();
             return true;
         }
-        
+
         //activate current item and deactivate active sibling if any
         this.activeIndex = (this.activeIndex === index) ? null : index;
-                
+
         //execute command
         if(item.command) {
-            if(!item.eventEmitter) {
-                item.eventEmitter = new EventEmitter();
-                item.eventEmitter.subscribe(item.command);
-            }
-            
-            item.eventEmitter.emit({
+            item.command({
                 originalEvent: event,
                 item: item
             });
@@ -214,14 +249,14 @@ export class AppSubMenu {
         if(item.items || (!item.url && !item.routerLink)) {
             event.preventDefault();
         }
-        
+
         //hide menu
         if(!item.items) {
             if(this.app.isHorizontal())
                 this.app.resetMenu = true;
             else
                 this.app.resetMenu = false;
-                
+
             this.app.overlayMenuActive = false;
             this.app.staticMenuMobileActive = false;
         }
