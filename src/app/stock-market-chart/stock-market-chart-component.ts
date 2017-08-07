@@ -1,5 +1,6 @@
-import {Component, OnInit, ViewChild, ViewContainerRef, ComponentFactoryResolver} from '@angular/core';
+import {Component, OnInit, ViewChild, ViewContainerRef, ComponentFactoryResolver,Inject,forwardRef} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
+import {AppComponent} from '../app.component';
 
 @Component({
     templateUrl: './stock-market-chart-component.html',
@@ -13,7 +14,8 @@ export class StockMarketChartComponent implements OnInit {
     @ViewChild('parent', {read: ViewContainerRef})
     parent: ViewContainerRef;
 
-    constructor(private _route: ActivatedRoute, private componentFactoryResolver: ComponentFactoryResolver) {}
+    constructor(private _route: ActivatedRoute, private componentFactoryResolver: ComponentFactoryResolver,
+                @Inject(forwardRef(() => AppComponent)) public app: AppComponent) {}
     ngOnInit() {
         // const childComponent = this.componentFactoryResolver.resolveComponentFactory(TradingviewComponent);
 

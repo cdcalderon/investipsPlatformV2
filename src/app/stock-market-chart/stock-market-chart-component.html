@@ -1,6 +1,6 @@
-<div class="ui-g ui-fluid">
-    <div class="ui-g-12 ">
-        <app-tradingview [marksType]="marksType" [symbol]="selectedNavSymbol"></app-tradingview>
+<div class="ui-g ui-fluid" >
+    <div class="ui-g-12 " style="position: fixed" [style.width]="app.rotateMenuButton === true ? '99%' : '85%'" >
+        <app-tradingview  [marksType]="marksType" [symbol]="selectedNavSymbol"></app-tradingview>
     </div>
 </div>
 
