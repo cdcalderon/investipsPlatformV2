@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/catch';
+import { environment } from '../../../environments/environment';
 
 import * as _ from 'lodash';
 import {ISignalsThreeArrow} from "./ISignalsThreeArrow";
@@ -11,7 +12,7 @@ import {ISignalsThreeArrow} from "./ISignalsThreeArrow";
 @Injectable()
 export class ThreeArrowsService {
      //private _stockEQuotesUrl = 'http://localhost:4000/api/threearrowsignals';
-    private _stockEQuotesUrl = 'https://warm-journey-46979.herokuapp.com/api/threearrowsignals';
+    private _stockQuotesAndIndicatorsApiUrlBase = environment.stockMarketQuotesWithIndicatorsApiBaseUrl;
     constructor(private _http: Http) { }
 
     getStockSignals(from: Date, to: Date, pagingInfo: any, gapsQuery: any): Observable<ISignalsThreeArrow> {
@@ -36,7 +37,7 @@ export class ThreeArrowsService {
             to: toDate
         };
 
-        return this._http.post(this._stockEQuotesUrl+ '/filter', JSON.stringify(dbQuery), {headers: headers})
+        return this._http.post(`${this._stockQuotesAndIndicatorsApiUrlBase}/api/threearrowsignals/filter`, JSON.stringify(dbQuery), {headers: headers})
             .map((response: Response) =>  {
                 return <ISignalsThreeArrow> response.json();
             })

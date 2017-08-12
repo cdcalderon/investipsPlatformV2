@@ -4,6 +4,8 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/catch';
+import { environment } from '../../environments/environment';
+
 
 import * as _ from 'lodash';
 import {IStockChartSignal} from './IStockChartSignal';
@@ -16,8 +18,8 @@ export class StockChartSignalsService {
 
     // private _stockGapSignalsUrl = 'http://localhost:4000/api/udf/marksgapswithpreviousquote';
     // private _stockThreeArrowSignalsUrl = 'http://localhost:4000/api/udf/marksgreenarrowsprojections';
-   private _stockGapSignalsUrl = 'https://warm-journey-46979.herokuapp.com/api/udf/marksgapswithpreviousquote';
-   private _stockThreeArrowSignalsUrl = 'https://warm-journey-46979.herokuapp.com/api/udf/marksgreenarrowsprojections';
+   private _apiQuotesAndIndicatorsBaseUrl = environment.stockMarketQuotesWithIndicatorsApiBaseUrl;
+   //private _stockThreeArrowSignalsUrl = 'https://warm-journey-46979.herokuapp.com/api/udf/marksgreenarrowsprojections';
 
 
     fourMonthAgo = Math.floor(new Date().valueOf() / 1000 - 4 * 30 * 24 * 60 * 60);
@@ -29,7 +31,7 @@ export class StockChartSignalsService {
         params.set('from', from);
         params.set('symbol', symbol);
 
-        return this._http.get(this._stockGapSignalsUrl, { search: params })
+        return this._http.get(`${this._apiQuotesAndIndicatorsBaseUrl}/api/udf/marksgapswithpreviousquote`, { search: params })
             .map((response: Response) =>  {
                 return <IStockChartSignal[]> response.json();
             })
@@ -54,7 +56,7 @@ export class StockChartSignalsService {
         params.set('from', from);
         params.set('symbol', symbol);
 
-        return this._http.get(this._stockThreeArrowSignalsUrl, { search: params })
+        return this._http.get(`${this._apiQuotesAndIndicatorsBaseUrl}/api/udf/marksgreenarrowsprojections`, { search: params })
             .map((response: Response) =>  {
                 return <IStockChartSignal[]> response.json();
             })

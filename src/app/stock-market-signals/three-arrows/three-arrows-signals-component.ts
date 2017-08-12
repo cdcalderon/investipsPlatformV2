@@ -64,7 +64,6 @@ export class ThreeArrowsComponent implements OnInit {
     navigateToChart(signal:any) {
         console.log(signal.symbol);
         this._router.navigate(['/marketchart', signal.symbol, 'greenarrows']);
-        // window.location.href = `http://localhost:4200/stockquote/${signal.symbol}`;
     }
 
     paginate(event) {

@@ -6,6 +6,7 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/catch';
 import { IGapSignal } from './IGapSignals';
 import {SignalsInfo} from './SignalsInfo';
+import { environment } from '../../../environments/environment';
 
 import * as _ from 'lodash';
 import {IGapQuote} from "./IGapQuote";
@@ -13,8 +14,8 @@ import {IGapQuote} from "./IGapQuote";
 @Injectable()
 export class GapSignalsService {
    // private _stockEQuotesUrl = 'http://localhost:4000/api/gapsignals';
-    private _stockEQuotesUrl = 'https://warm-journey-46979.herokuapp.com/api/gapsignals';
-    private _gapsHistoricals = 'https://warm-journey-46979.herokuapp.com/api/udf/historicalgaps';
+    private _stockQuotesAndIndicatorssUrlBase = environment.stockMarketQuotesWithIndicatorsApiBaseUrl;
+    //private _gapsHistoricals = 'https://warm-journey-46979.herokuapp.com/api/udf/historicalgaps';
    // private _gapsHistoricals = 'http://localhost:4000/api/udf/historicalgaps';
 
     constructor(private _http: Http) { }
@@ -42,7 +43,7 @@ export class GapSignalsService {
         };
 
       //  return this._http.get(this._stockEQuotesUrl, { search: params })
-        return this._http.post(this._stockEQuotesUrl + '/filter', JSON.stringify(dbQuery), {headers: headers})
+        return this._http.post(`${this._stockQuotesAndIndicatorssUrlBase}/api/gapsignals/filter`, JSON.stringify(dbQuery), {headers: headers})
             .map((response: Response) =>  {
                 return <SignalsInfo[]> response.json();
             })
@@ -56,7 +57,7 @@ export class GapSignalsService {
         params.set('from', from);
         params.set('symbol', symbol);
 
-        return this._http.get(this._gapsHistoricals, { search: params })
+        return this._http.get(`${this._stockQuotesAndIndicatorssUrlBase}/api/udf/historicalgaps`, { search: params })
             .map((response: Response) =>  {
                 return <IGapQuote[]> response.json();
             })

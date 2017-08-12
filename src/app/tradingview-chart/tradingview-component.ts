@@ -5,6 +5,7 @@ import {SelectItem} from 'primeng/primeng';
 import {IGapQuote} from "../stock-market-signals/gaps/IGapQuote";
 import {GapSignalsService} from "../stock-market-signals/gaps/gap-signals-service";
 import * as moment from 'moment';
+import { environment } from '../../environments/environment';
 
 
 declare var TradingView: any;
@@ -84,7 +85,7 @@ export class TradingviewComponent implements OnInit, AfterViewInit{
         const that = this;
 
         // const udf_datafeed = new Datafeeds.UDFCompatibleDatafeed('http://localhost:4000', null, this.marksType);
-        const udf_datafeed = new Datafeeds.UDFCompatibleDatafeed('https://warm-journey-46979.herokuapp.com', null, this.marksType);
+        const udf_datafeed = new Datafeeds.UDFCompatibleDatafeed(environment.stockMarketQuotesWithIndicatorsApiBaseUrl, null, this.marksType);
 
             const widget = new TradingView.widget({
                 fullscreen: true,
