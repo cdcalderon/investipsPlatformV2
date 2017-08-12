@@ -31,7 +31,7 @@ export class StockChartSignalsService {
         params.set('from', from);
         params.set('symbol', symbol);
 
-        return this._http.get(`${this._apiQuotesAndIndicatorsBaseUrl}/api/udf/marksgapswithpreviousquote`, { search: params })
+        return this._http.get(`${this._apiQuotesAndIndicatorsBaseUrl}/api/signals/fibprojections/gap`, { search: params })
             .map((response: Response) =>  {
                 return <IStockChartSignal[]> response.json();
             })
@@ -56,7 +56,7 @@ export class StockChartSignalsService {
         params.set('from', from);
         params.set('symbol', symbol);
 
-        return this._http.get(`${this._apiQuotesAndIndicatorsBaseUrl}/api/udf/marksgreenarrowsprojections`, { search: params })
+        return this._http.get(`${this._apiQuotesAndIndicatorsBaseUrl}/api/signals/fibprojections/greenarrow`, { search: params })
             .map((response: Response) =>  {
                 return <IStockChartSignal[]> response.json();
             })
