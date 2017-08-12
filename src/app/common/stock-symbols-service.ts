@@ -7,12 +7,12 @@ import 'rxjs/add/operator/catch';
 
 @Injectable()
 export class StockSymbolService {
-    private symbolsURL = 'https://enigmatic-waters-56889.herokuapp.com/api/udf/symbolspartial?part=';
-    //private symbolsURL = 'http://localhost:4600/api/udf/symbolspartial?part=';
+    private symbolsURL = 'https://enigmatic-waters-56889.herokuapp.com';
+    //private symbsymbolsURLolsURL = 'http://localhost:4600';
     constructor(private _http: Http){}
 
     getSymbols(partial: string) : Observable<string[]> {
-        return this._http.get(this.symbolsURL + partial, )
+        return this._http.get(`${this.symbolsURL}/api/udf/symbolspartial?part=${partial}`, )
             .map((response: Response) =>  {
                 return <string[]> response.json();
             })
