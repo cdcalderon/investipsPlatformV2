@@ -4,6 +4,7 @@ import {IStockChartSignal} from './IStockChartSignal';
 import {SelectItem} from 'primeng/primeng';
 import {IGapQuote} from "../stock-market-signals/gaps/IGapQuote";
 import {GapSignalsService} from "../stock-market-signals/gaps/gap-signals-service";
+import {WidgetShape} from './WidgetShape'
 import * as moment from 'moment';
 import { environment } from '../../environments/environment';
 
@@ -143,6 +144,54 @@ export class TradingviewComponent implements OnInit, AfterViewInit{
                 }
             });
 
+        this.onWidgetReady(this, widget, this._stockChartSignalService);
+        // }); // end of TradingView.onready
+    }
+
+    ngAfterViewInit() {
+        this.renderTradingViewComponent();
+    }
+
+    setGapSignalStudy(chart: any, gap: IStockChartSignal){
+        chart.removeAllShapes();
+        chart.removeAllStudies();
+
+        var shapes = chart.getAllShapes();
+
+        for(let s of shapes) {
+            chart.removeEntity(s.id);
+        }
+
+        this.createWidgetShape({chart: chart, time:gap.signalDate, price: gap.confirmationEntryPrice,
+            text:`          Entry: ${gap.confirmationEntryPrice} - a: ${gap.a} - b: ${gap.b} -c: ${gap.c}`,
+            color:'#00ff03'});
+
+        this.createWidgetShape({chart: chart, time:gap.signalDate, price: gap.projection100,
+            text:'       Goal: ' + gap.projection100,
+            color:'#b3ff0b'});
+
+        this.createWidgetShape({chart: chart, time:gap.signalDate, price: gap.projection1618,
+            text: '       Extended Goal: ' + gap.projection1618,
+            color: '#b3ff0b'});
+
+        this.createHorizontalLine({chart: chart,
+            time: gap.signalDate, price: gap.confirmationEntryPrice,
+            extendedTime: gap.drawExtensionDate, confirmationEntryPrice: gap.confirmationEntryPrice,
+            color: '#01ff00'});
+
+        this.createHorizontalLine({chart: chart,
+            time: gap.signalDate, price: gap.projection100,
+            extendedTime: gap.drawExtensionDate, confirmationEntryPrice: gap.projection100,
+            color: '#aaff03'});
+
+        this.createHorizontalLine({chart: chart,
+            time: gap.signalDate, price: gap.projection1618,
+            extendedTime: gap.drawExtensionDate, confirmationEntryPrice: gap.projection1618,
+            color: '#ffb500'});
+
+    }
+
+    onWidgetReady(tradingviewComponent, widget, stockChartSignalService) {
         widget.onChartReady(function() {
             widget.chart().createStudy(
                 'Stochastic',
@@ -173,30 +222,21 @@ export class TradingviewComponent implements OnInit, AfterViewInit{
                 {'plot.color.0' : '#fffa00'}
             );
 
+            tradingviewComponent.setChartObject.bind(tradingviewComponent)(widget.chart());
 
-            that.setChartObject.bind(that)(widget.chart());
-            // draw some simple technical analysis figures using drawings to show how it works
-
-
-            const from = monthAdd(new Date(), -60).toString();
+            const from = tradingviewComponent.monthAdd(new Date(), -60).toString();
             const to = new Date();
 
-            if(that.marksType === 'gaps') {
-                stockChartSignalService.getGapSignals(from, to.toString(), symbol)
+            if(tradingviewComponent.marksType === 'gap') {
+                stockChartSignalService.getGapSignals(from, to.toString(), tradingviewComponent.symbol)
                     .subscribe(
                         stockSignals => {
-
-                            //widget.chart().setVisibleRange({from: 1438128000, to: 1467763200});
-
-                            that.signals = stockSignals.map((g) => {
+                            tradingviewComponent.signals = stockSignals.map((g) => {
                                 return {label: moment(new Date(g.signalDate * 1000)).format('ll'), value: g}
                             });
 
                             this.gapSignals = stockSignals;
                             for (const signal of this.gapSignals){
-                                const signalDate = signal.signalDate;
-                                const extensionDate = signal.drawExtensionDate;
-                                const projection100 = signal.projection100;
                                 let confirmationEntryPrice = 0;
 
                                 if (signal.direction === 'up') {
@@ -204,233 +244,30 @@ export class TradingviewComponent implements OnInit, AfterViewInit{
                                 } else if (signal.direction === 'down') {
                                     confirmationEntryPrice = signal.projection618;
                                 }
-
-                                // widget.chart().createShape({
-                                //         time: signalDate,
-                                //         price: confirmationEntryPrice},
-                                //     {
-                                //         shape: 'text',
-                                //         zOrder: 'top',
-                                //         lock: true,
-                                //         disableSelection: true,
-                                //         disableSave: true,
-                                //         disableUndo: true,
-                                //         text: '       Entry: ' + confirmationEntryPrice,
-                                //         overrides: {
-                                //             color: '#00ff03',
-                                //             fontsize: 12}
-                                //     });
-                                //
-                                // widget.chart().createShape({
-                                //         time: signalDate,
-                                //         price: signal.projection100},
-                                //     {
-                                //         shape: 'text',
-                                //         zOrder: 'top',
-                                //         lock: true,
-                                //         disableSelection: true,
-                                //         disableSave: true,
-                                //         disableUndo: true,
-                                //         text: '       Goal: ' + signal.projection100,
-                                //         overrides: {
-                                //             color: '#b3ff0b',
-                                //             fontsize: 12}
-                                //     });
-                                //
-                                // widget.chart().createShape({
-                                //         time: signalDate,
-                                //         price: signal.projection1618},
-                                //     {
-                                //         shape: 'text',
-                                //         zOrder: 'top',
-                                //         lock: true,
-                                //         disableSelection: true,
-                                //         disableSave: true,
-                                //         disableUndo: true,
-                                //         text: '       Extended Goal: ' + signal.projection1618,
-                                //         overrides: {
-                                //             color: '#b3ff0b',
-                                //             fontsize: 12}
-                                //     });
-                                // // widget.chart().createShape({
-                                // //         time: signalDate,
-                                // //         price: projection100},
-                                // //     {
-                                // //         shape: 'long_position',
-                                // //         lock: true,
-                                // //         disableSelection: true,
-                                // //         disableSave: true,
-                                // //         disableUndo: true,
-                                // //         text: 'Signal Price Goal ' + this.gapSignals.goalPrice,
-                                // //         overrides: {
-                                // //             color: '#00ff03'}
-                                // //     });
-                                // widget.chart().createMultipointShape(
-                                //     [
-                                //         {time: signalDate, price: confirmationEntryPrice},
-                                //         {time: extensionDate, price: confirmationEntryPrice}
-                                //     ],
-                                //     {
-                                //         shape: 'trend_line',
-                                //         lock: true,
-                                //         disableSelection: true,
-                                //         disableSave: true,
-                                //         disableUndo: true,
-                                //         overrides: {
-                                //             showLabel: true,
-                                //             fontSize: 12,
-                                //             linewidth: 1,
-                                //             linecolor: '#01ff00'
-                                //         }
-                                //     }
-                                // );
-                                //
-                                // widget.chart().createMultipointShape(
-                                //     [
-                                //         {time: signalDate, price: signal.projection100},
-                                //         {time: extensionDate, price: signal.projection100}
-                                //     ],
-                                //     {
-                                //         shape: 'trend_line',
-                                //         lock: true,
-                                //         disableSelection: true,
-                                //         disableSave: true,
-                                //         disableUndo: true,
-                                //         overrides: {
-                                //             showLabel: true,
-                                //             fontSize: 12,
-                                //             linewidth: 1,
-                                //             linecolor: '#aaff03'
-                                //         }
-                                //     }
-                                // );
-                                //
-                                // widget.chart().createMultipointShape(
-                                //     [
-                                //         {time: signalDate, price: signal.projection1618},
-                                //         {time: extensionDate, price: signal.projection1618}
-                                //     ],
-                                //     {
-                                //         shape: 'trend_line',
-                                //         lock: true,
-                                //         disableSelection: true,
-                                //         disableSave: true,
-                                //         disableUndo: true,
-                                //         overrides: {
-                                //             showLabel: true,
-                                //             fontSize: 12,
-                                //             linewidth: 1,
-                                //             linecolor: '#ffb500'
-                                //         }
-                                //     }
-                                // );
-                                //
-                                // // widget.chart().createExecutionShape()  // ----------------------------------------------------
-                                // //     .setText("@1,320.75 Limit Buy 1")
-                                // //     .setTextColor("rgba(255,0,0,0.5)")
-                                // //     .setArrowSpacing(25)
-                                // //     .setArrowHeight(25)
-                                // //     .setArrowColor("#F00")
-                                // //     .setTime(signalDate)
-                                // //     .setPrice(projection100);
-                                //
-                                // // const order = widget.chart().createOrderLine() /// ----------------------------------------
-                                // //     .onMove(function() {
-                                // //         console.log("Order moved event");
-                                // //     })
-                                // //     .onCancel(function(text) {
-                                // //         console.log("Order cancel event");
-                                // //     })
-                                // //     .setText("STOP: 73.5 (5,64%)")
-                                // //     .setLineLength(3)
-                                // //     .setQuantity("2");
-                                // // order.setPrice(projection100);
-                                //
-                                // // const position = widget.chart().createPositionLine() // --------------
-                                // //     .onReverse(function(text) {
-                                // //         console.log("Position reverse event");
-                                // //     })
-                                // //     .onClose(function(text) {
-                                // //         console.log("Position close event");
-                                // //     })
-                                // //     .setText("PROFIT: 71.1 (3.31%)")
-                                // //     .setQuantity("8.235")
-                                // //     .setLineLength(1);
-                                // // position.setPrice(projection100);
-                                //
-                                // // const position = widget.chart().createPositionLine() // -----------------------------------------------
-                                // //     .onReverse(function(text) {
-                                // //         console.log('Position reverse event');
-                                // //     })
-                                // //     .onClose(function(text) {
-                                // //         console.log('Position close event');
-                                // //     })
-                                // //     .setText('PROFIT: 71.1 (3.31%)')
-                                // //     .setQuantity('8.235')
-                                // //     .setLineLength(3)
-                                // // position.setPrice(projection100);
                             }
 
                         },
                         error => this.errorMessage = <any>error
                     );
             } else {
-                stockChartSignalService.getThreeArrowSignals(from, to.toString(), symbol)
+                stockChartSignalService.getThreeArrowSignals(from, to.toString(), tradingviewComponent.symbol)
                     .subscribe(
                         stockSignals => {
-                            that.signals = stockSignals.map((g) => {
+                            tradingviewComponent.signals = stockSignals.map((g) => {
                                 return {label: moment(new Date(g.signalDate * 1000)).format('ll'), value: g}
                             });
                         },
                         error => this.errorMessage = <any>error
                     );
             }
-
-
-
-
-            // const position = widget.chart().createPositionLine() // -------------------------------------------------------------------
-            //     .onReverse(function(text) {
-            //         console.log('Position reverse event');
-            //     })
-            //     .onClose(function(text) {
-            //         console.log('Position close event');
-            //     })
-            //     .setText('PROFIT: 71.1 (3.31%)')
-            //     .setQuantity('8.235')
-            //     .setLineLength(1);
-            // position.setPrice(position.getPrice() - 2);
-
-
-
         }); // end of widget.onChartReady
-
-        // }); // end of TradingView.onready
     }
 
-    ngAfterViewInit() {
-        // this.reloadPage();
-        this.renderTradingViewComponent();
-    }
-
-    reloadPage() {
-        window.location.reload();
-    }
-
-    setGapSignalStudy(chart: any, gap: IStockChartSignal){
-        chart.removeAllShapes();
-        chart.removeAllStudies();
-
-        var shapes = chart.getAllShapes();
-
-        for(let s of shapes) {
-            chart.removeEntity(s.id);
-        }
-
-
-        chart.createShape({
-                time: gap.signalDate,
-                price: gap.confirmationEntryPrice},
+    createWidgetShape(widgetShape: WidgetShape) {
+        widgetShape.chart.createShape({
+                time: widgetShape.time,
+                price: widgetShape.price
+            },
             {
                 shape: 'text',
                 zOrder: 'top',
@@ -438,60 +275,18 @@ export class TradingviewComponent implements OnInit, AfterViewInit{
                 disableSelection: true,
                 disableSave: true,
                 disableUndo: true,
-                text: `          Entry: ${gap.confirmationEntryPrice} - a: ${gap.a} - b: ${gap.b} -c: ${gap.c}`,
+                text: widgetShape.text,
                 overrides: {
-                    color: '#00ff03',
+                    color: widgetShape.color,
                     fontsize: 12}
             });
+    }
 
-        chart.createShape({
-                time: gap.signalDate,
-                price: gap.projection100},
-            {
-                shape: 'text',
-                zOrder: 'top',
-                lock: true,
-                disableSelection: true,
-                disableSave: true,
-                disableUndo: true,
-                text: '       Goal: ' + gap.projection100,
-                overrides: {
-                    color: '#b3ff0b',
-                    fontsize: 12}
-            });
-
-        chart.createShape({
-                time: gap.signalDate,
-                price: gap.projection1618},
-            {
-                shape: 'text',
-                zOrder: 'top',
-                lock: true,
-                disableSelection: true,
-                disableSave: true,
-                disableUndo: true,
-                text: '       Extended Goal: ' + gap.projection1618,
-                overrides: {
-                    color: '#b3ff0b',
-                    fontsize: 12}
-            });
-        // widget.chart().createShape({
-        //         time: signalDate,
-        //         price: projection100},
-        //     {
-        //         shape: 'long_position',
-        //         lock: true,
-        //         disableSelection: true,
-        //         disableSave: true,
-        //         disableUndo: true,
-        //         text: 'Signal Price Goal ' + this.gapSignals.goalPrice,
-        //         overrides: {
-        //             color: '#00ff03'}
-        //     });
-        chart.createMultipointShape(
+    createHorizontalLine(widgetShape: WidgetShape) {
+        widgetShape.chart.createMultipointShape(
             [
-                {time: gap.signalDate, price: gap.confirmationEntryPrice},
-                {time: gap.drawExtensionDate, price: gap.confirmationEntryPrice}
+                {time: widgetShape.time, price: widgetShape.price},
+                {time: widgetShape.extendedTime, price: widgetShape.confirmationEntryPrice}
             ],
             {
                 shape: 'trend_line',
@@ -503,47 +298,7 @@ export class TradingviewComponent implements OnInit, AfterViewInit{
                     showLabel: true,
                     fontSize: 12,
                     linewidth: 1,
-                    linecolor: '#01ff00'
-                }
-            }
-        );
-
-        chart.createMultipointShape(
-            [
-                {time: gap.signalDate, price: gap.projection100},
-                {time: gap.drawExtensionDate, price: gap.projection100}
-            ],
-            {
-                shape: 'trend_line',
-                lock: true,
-                disableSelection: true,
-                disableSave: true,
-                disableUndo: true,
-                overrides: {
-                    showLabel: true,
-                    fontSize: 12,
-                    linewidth: 1,
-                    linecolor: '#aaff03'
-                }
-            }
-        );
-
-        chart.createMultipointShape(
-            [
-                {time: gap.signalDate, price: gap.projection1618},
-                {time: gap.drawExtensionDate, price: gap.projection1618}
-            ],
-            {
-                shape: 'trend_line',
-                lock: true,
-                disableSelection: true,
-                disableSave: true,
-                disableUndo: true,
-                overrides: {
-                    showLabel: true,
-                    fontSize: 12,
-                    linewidth: 1,
-                    linecolor: '#ffb500'
+                    linecolor: widgetShape.color
                 }
             }
         );
@@ -559,6 +314,5 @@ export class TradingviewComponent implements OnInit, AfterViewInit{
         }
 
         return temp;
-
     }
 }
