@@ -4,7 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {IThreeArrowSignal} from './IThreeArrowSignal';
 import * as _ from 'lodash';
 import {IFilterCriteria} from "../../shared/filter-criteria-model";
-import {ISignalsThreeArrow} from "./ISignalsThreeArrow";
+import {ISignalsThreeArrow} from "./ISignalsThreeArrowInfo";
 import {Paginator} from 'primeng/primeng';
 
 @Component({
@@ -53,7 +53,6 @@ export class ThreeArrowsComponent implements OnInit {
                 },
                 error => this.errorMessage = <any>error
             );
-
     }
 
     onSignalSelect(event) {

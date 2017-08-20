@@ -7,15 +7,16 @@ import 'rxjs/add/operator/catch';
 import { environment } from '../../../environments/environment';
 
 import * as _ from 'lodash';
-import {ISignalsThreeArrow} from "./ISignalsThreeArrowInfo";
+import {ISignalsStoch307Info} from "./ISignalsStoch307Info";
 
 @Injectable()
-export class ThreeArrowsService {
-     //private _stockEQuotesUrl = 'http://localhost:4000/api/threearrowsignals';
+export class Stoch307SignalsService {
+    //private _stockEQuotesUrl = 'http://localhost:4000/api/threearrowsignals';
     private _stockQuotesAndIndicatorsApiUrlBase = environment.stockMarketQuotesWithIndicatorsApiBaseUrl;
+
     constructor(private _http: Http) { }
 
-    getStockSignals(from: Date, to: Date, pagingInfo: any, gapsQuery: any): Observable<ISignalsThreeArrow> {
+    getStoch307Signals(from: Date, to: Date, pagingInfo: any, gapsQuery: any): Observable<ISignalsStoch307Info> {
         var headers = new Headers();
         headers.append('Content-Type', 'application/json');
         const params = new URLSearchParams();
@@ -37,21 +38,25 @@ export class ThreeArrowsService {
             to: toDate
         };
 
-        return this._http.post(`${this._stockQuotesAndIndicatorsApiUrlBase}/api/threearrowsignals/filter`, JSON.stringify(dbQuery), {headers: headers})
+        return this._http.post(`${this._stockQuotesAndIndicatorsApiUrlBase}/api/signals/stoch307/bullwithfilter`, JSON.stringify(dbQuery), {headers: headers})
             .map((response: Response) =>  {
-                return <ISignalsThreeArrow> response.json();
+                return <ISignalsStoch307Info> response.json();
             })
-            .do(data => console.log('Three arrow Signals: ' + JSON.stringify(data)))
+            .do(data => console.log('Stoch 307 Signals: ' + JSON.stringify(data)))
             .catch(this.handleError);
     }
 
 
-    getGroupedSignalsBySymbol(stockSignals: ISignalsThreeArrow) {
+    getGroupedStoch307BySymbol(stockSignals: ISignalsStoch307Info) {
         return _(stockSignals.docs)
             .groupBy(x => x.symbol)
             .map((value, key) => ({
                 symbol: key,
-                quantity: value.length,
+                exchange: value[0].exchange,
+                sector: value[0].sector,
+                industry: value[0].industry,
+                marketCap: value[0].marketCap,
+                //movingExAvg30PositiveSlope: value.movingExAvg30PositiveSlope,
                 signals: value,
                 close: value[value.length - 1].close
             }))

@@ -1,5 +1,5 @@
 import {IGapSignal} from "./IGapSignals";
-export interface SignalsInfo {
+export interface ISignalsGapInfo {
     docs: IGapSignal[];
     limit: number;
     offset: number;

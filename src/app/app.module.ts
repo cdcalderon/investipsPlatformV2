@@ -106,6 +106,8 @@ import {StockSymbolService} from './common/stock-symbols-service';
 import {TradingviewComponent} from './tradingview-chart/tradingview-component';
 import {StockChartSignalsService} from './tradingview-chart/stock-chart-signals-service';
 import {SignalFilterComponent} from './signal-filter/signal-filter-component';
+import {Stoch307SignalsComponent} from './stock-market-signals/stoch-307/stoch307-signals-component';
+import {Stoch307SignalsService} from './stock-market-signals/stoch-307/stoch307-signals-service';
 
 @NgModule({
     imports: [
@@ -205,7 +207,8 @@ import {SignalFilterComponent} from './signal-filter/signal-filter-component';
         GapSignalsComponent,
         ThreeArrowsComponent,
         TradingviewComponent,
-        SignalFilterComponent
+        SignalFilterComponent,
+        Stoch307SignalsComponent
     ],
     providers: [
         {
@@ -218,7 +221,8 @@ import {SignalFilterComponent} from './signal-filter/signal-filter-component';
             GapSignalsService,
             ThreeArrowsService,
             StockChartSignalsService,
-            StockSymbolService
+            StockSymbolService,
+            Stoch307SignalsService
     ],
     bootstrap:[AppComponent]
 })

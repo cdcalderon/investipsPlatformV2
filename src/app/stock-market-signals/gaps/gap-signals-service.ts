@@ -5,7 +5,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/catch';
 import { IGapSignal } from './IGapSignals';
-import {SignalsInfo} from './SignalsInfo';
+import {ISignalsGapInfo} from './ISignalsGapInfo';
 import { environment } from '../../../environments/environment';
 
 import * as _ from 'lodash';
@@ -20,7 +20,7 @@ export class GapSignalsService {
 
     constructor(private _http: Http) { }
 
-    getGapSignals(from: Date, to: Date, pagingInfo: any, gapsQuery: any): Observable<SignalsInfo> {
+    getGapSignals(from: Date, to: Date, pagingInfo: any, gapsQuery: any): Observable<ISignalsGapInfo> {
         var headers = new Headers();
         headers.append('Content-Type', 'application/json');
         const params = new URLSearchParams();
@@ -45,7 +45,7 @@ export class GapSignalsService {
       //  return this._http.get(this._stockEQuotesUrl, { search: params })
         return this._http.post(`${this._stockQuotesAndIndicatorssUrlBase}/api/gapsignals/filter`, JSON.stringify(dbQuery), {headers: headers})
             .map((response: Response) =>  {
-                return <SignalsInfo[]> response.json();
+                return <ISignalsGapInfo[]> response.json();
             })
             .do(data => console.log('All Signals: ' + JSON.stringify(data)))
             .catch(this.handleError);
@@ -65,7 +65,7 @@ export class GapSignalsService {
             .catch(this.handleError);
     }
 
-    getGroupedSignalsBySymbol(stockSignals: SignalsInfo) {
+    getGroupedSignalsBySymbol(stockSignals: ISignalsGapInfo) {
         return _(stockSignals.docs)
             .groupBy(x => x.symbol)
             .map((value, key) => ({

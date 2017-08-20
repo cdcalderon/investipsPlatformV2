@@ -23,6 +23,7 @@ export class AppMenuComponent implements OnInit {
             {label: 'Dashboard', icon: 'dashboard', routerLink: ['/']},
             {label: 'Gap Signals', icon: 'brush', routerLink: ['/gapsignals']},
             {label: 'Three Arrows Signals', icon: 'brush', routerLink: ['/threearrows']},
+            {label: 'STOCH307', icon: 'brush', routerLink: ['/stoch307']},
             // {label: 'Market Charts', icon: 'brush', routerLink: ['/marketchart']},
             {
                 label: 'Themes', icon: 'palette',

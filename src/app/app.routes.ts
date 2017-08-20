@@ -17,11 +17,13 @@ import {Documentation} from './demo/view/documentation';
 import {StockMarketChartComponent} from './stock-market-chart/stock-market-chart-component';
 import {GapSignalsComponent} from './stock-market-signals/gaps/gap-signals-component';
 import {ThreeArrowsComponent} from "./stock-market-signals/three-arrows/three-arrows-signals-component";
+import {Stoch307SignalsComponent} from "./stock-market-signals/stoch-307/stoch307-signals-component";
 
 export const routes: Routes = [
     {path: '', component: DashboardDemo},
     {path: 'gapsignals', component: GapSignalsComponent},
     {path: 'threearrows', component: ThreeArrowsComponent},
+    {path: 'stoch307', component: Stoch307SignalsComponent},
     {path: 'marketchart/:id/:marktype', component: StockMarketChartComponent},
     {path: 'sample', component: SampleDemo},
     {path: 'forms', component: FormsDemo},
