@@ -7,7 +7,8 @@ import {GapSignalsService} from "../stock-market-signals/gaps/gap-signals-servic
 import {WidgetShape} from './WidgetShape'
 import * as moment from 'moment';
 import { environment } from '../../environments/environment';
-
+import {PaidMemberChartStudiesService} from "./paid-member-chart-studies-service";
+import {SecurityWidgetDefinition} from "./SecurityWidgetDefinition";
 
 declare var TradingView: any;
 declare var Datafeeds: any;
@@ -20,20 +21,17 @@ declare var Datafeeds: any;
 export class TradingviewComponent implements OnInit, AfterViewInit{
 
     signals: SelectItem[];
-
     selectedSignal: string;
-
     chartObject: any;
-
     @Input() symbol: string;
     @Input() marksType: string;
     errorMessage: string;
     gapSignals: IStockChartSignal;
-    historicalGaps: IGapQuote[];
-    stockChartSignalService: StockChartSignalsService;
+    memberStudies: SecurityWidgetDefinition;
 
     constructor(private _stockChartSignalService: StockChartSignalsService,
-                private _gapSignalsService: GapSignalsService) {
+                private _gapSignalsService: GapSignalsService,
+                private _paidMemberChartStudiesService: PaidMemberChartStudiesService) {
         // this.signals = [];
         // this.signals.push({label:'Select Signal', value:null});
         // this.signals.push({label:'Gap 1', value:{id:1, name: 'New York', code: 'NY'}});
@@ -80,10 +78,7 @@ export class TradingviewComponent implements OnInit, AfterViewInit{
 
     renderTradingViewComponent() {
        // TradingView.onready(function() {
-        const stockChartSignalService = this._stockChartSignalService;
         const symbol = this.symbol;
-        const monthAdd = this.monthAdd;
-        const that = this;
 
         // const udf_datafeed = new Datafeeds.UDFCompatibleDatafeed('http://localhost:4000', null, this.marksType);
         const udf_datafeed = new Datafeeds.UDFCompatibleDatafeed(environment.stockMarketQuotesWithIndicatorsApiBaseUrl, null, this.marksType);
@@ -153,7 +148,7 @@ export class TradingviewComponent implements OnInit, AfterViewInit{
     }
 
     setGapSignalStudy(chart: any, gap: IStockChartSignal){
-        chart.removeAllShapes();
+        //chart.removeAllShapes();
         chart.removeAllStudies();
 
         var shapes = chart.getAllShapes();
@@ -166,30 +161,99 @@ export class TradingviewComponent implements OnInit, AfterViewInit{
             text:`          Entry: ${gap.confirmationEntryPrice} - a: ${gap.a} - b: ${gap.b} -c: ${gap.c}`,
             color:'#00ff03'});
 
-        this.createWidgetShape({chart: chart, time:gap.signalDate, price: gap.projection100,
-            text:'       Goal: ' + gap.projection100,
-            color:'#b3ff0b'});
+        // this.createWidgetShape({chart: chart, time:gap.signalDate, price: gap.projection100,
+        //     text:'       Goal: ' + gap.projection100,
+        //     color:'#b3ff0b'});
+        //
+        // this.createWidgetShape({chart: chart, time:gap.signalDate, price: gap.projection1618,
+        //     text: '       Extended Goal: ' + gap.projection1618,
+        //     color: '#b3ff0b'});
+        //
+        // this.createHorizontalLine({chart: chart,
+        //     time: gap.signalDate, price: gap.confirmationEntryPrice,
+        //     extendedTime: gap.drawExtensionDate, confirmationEntryPrice: gap.confirmationEntryPrice,
+        //     color: '#01ff00'});
+        //
+        // this.createHorizontalLine({chart: chart,
+        //     time: gap.signalDate, price: gap.projection100,
+        //     extendedTime: gap.drawExtensionDate, confirmationEntryPrice: gap.projection100,
+        //     color: '#aaff03'});
+        //
+        // this.createHorizontalLine({chart: chart,
+        //     time: gap.signalDate, price: gap.projection1618,
+        //     extendedTime: gap.drawExtensionDate, confirmationEntryPrice: gap.projection1618,
+        //     color: '#ffb500'});
 
-        this.createWidgetShape({chart: chart, time:gap.signalDate, price: gap.projection1618,
-            text: '       Extended Goal: ' + gap.projection1618,
-            color: '#b3ff0b'});
+        this.createFibExtension({chart: chart, time:gap.signalDate, aPivot: gap.a, bPivot: gap.b,
+        cPivot:gap.c, extendedTime: gap.drawExtensionDate, price: gap.projection1618, color: '#ffb500'})
 
-        this.createHorizontalLine({chart: chart,
-            time: gap.signalDate, price: gap.confirmationEntryPrice,
-            extendedTime: gap.drawExtensionDate, confirmationEntryPrice: gap.confirmationEntryPrice,
-            color: '#01ff00'});
 
-        this.createHorizontalLine({chart: chart,
-            time: gap.signalDate, price: gap.projection100,
-            extendedTime: gap.drawExtensionDate, confirmationEntryPrice: gap.projection100,
-            color: '#aaff03'});
 
-        this.createHorizontalLine({chart: chart,
-            time: gap.signalDate, price: gap.projection1618,
-            extendedTime: gap.drawExtensionDate, confirmationEntryPrice: gap.projection1618,
-            color: '#ffb500'});
+        // chart.createShape({
+        //         time: gap.signalDate,
+        //         price: gap.projection1618
+        //     },
+        //     {
+        //         shape: 'fib_retracement',
+        //         extendLeft: true,
+        //         extendRight: true,
+        //         zOrder: 'top',
+        //         lock: true,
+        //         disableSelection: true,
+        //         disableSave: true,
+        //         disableUndo: true,
+        //         text: '',
+        //         overrides: {
+        //             color: '#ffb500',
+        //             fontsize: 12}
+        //     });
 
     }
+
+    getPaidMemberStudies() {
+        let chart = this.chartObject;
+        this._paidMemberChartStudiesService.getMemberStudies(1)
+            .subscribe(
+                memberStudies => {
+                    this.memberStudies = memberStudies;
+
+                    //center study on screen
+                    let widgetDate = this.memberStudies.widgetShapes[0].shapePoints[0].time;
+
+                    const from = this.monthAdd(new Date(widgetDate * 1000), -6) / 1000;
+                    const to = this.monthAdd(new Date(widgetDate * 1000), 6) / 1000;
+
+                    chart.setVisibleRange({from: from, to: to});
+
+                    setTimeout(() => {
+                        this.renderPaidMemberStudies(chart, this.memberStudies);
+                    },1000);
+
+                }
+            ,
+                error => this.errorMessage = <any>error
+            );
+    }
+
+    renderPaidMemberStudies(chart: any, studies: SecurityWidgetDefinition){
+
+        this.chartObject.removeAllShapes();
+        this.chartObject.removeAllStudies();
+
+        let widgetShape: WidgetShape = {
+            chart: chart,
+            time: studies.widgetShapes[0].shapePoints[0].time,
+            extendedTime: studies.widgetShapes[0].shapePoints[2].time,
+            aPivot: studies.widgetShapes[0].shapePoints[0].price,
+            bPivot: studies.widgetShapes[0].shapePoints[1].price,
+            cPivot: studies.widgetShapes[0].shapePoints[2].price,
+        };
+
+
+        this.createFibExtension(widgetShape)
+    }
+
+
 
     onWidgetReady(tradingviewComponent, widget, stockChartSignalService) {
         widget.onChartReady(function() {
@@ -228,7 +292,7 @@ export class TradingviewComponent implements OnInit, AfterViewInit{
             const to = new Date();
 
             if(tradingviewComponent.marksType === 'gap') {
-                stockChartSignalService.getGapSignals(from, to.toString(), tradingviewComponent.symbol)
+                stockChartSignalService.getGapSignalsWithFibProjections(from, to.toString(), tradingviewComponent.symbol)
                     .subscribe(
                         stockSignals => {
                             tradingviewComponent.signals = stockSignals.map((g) => {
@@ -250,7 +314,7 @@ export class TradingviewComponent implements OnInit, AfterViewInit{
                         error => this.errorMessage = <any>error
                     );
             } else {
-                stockChartSignalService.getThreeArrowSignals(from, to.toString(), tradingviewComponent.symbol)
+                stockChartSignalService.getThreeArrowSignalsWithFibProjections(from, to.toString(), tradingviewComponent.symbol)
                     .subscribe(
                         stockSignals => {
                             tradingviewComponent.signals = stockSignals.map((g) => {
@@ -260,6 +324,8 @@ export class TradingviewComponent implements OnInit, AfterViewInit{
                         error => this.errorMessage = <any>error
                     );
             }
+            tradingviewComponent.getPaidMemberStudies();
+
         }); // end of widget.onChartReady
     }
 
@@ -299,6 +365,33 @@ export class TradingviewComponent implements OnInit, AfterViewInit{
                     fontSize: 12,
                     linewidth: 1,
                     linecolor: widgetShape.color
+                }
+            }
+        );
+    }
+    createFibExtension(widgetShape: WidgetShape) {
+        widgetShape.chart.createMultipointShape(
+            [
+                {time: widgetShape.time, price: widgetShape.aPivot},
+                {time: widgetShape.time, price: widgetShape.bPivot},
+                {time: widgetShape.extendedTime, price: widgetShape.cPivot}
+            ],
+            {
+                shape: 'fib_trend_ext',
+                lock: false,
+                disableSelection: true,
+                disableSave: true,
+                disableUndo: true,
+                overrides: {
+                    showLabel: true,
+                    fontSize: 12,
+                    linewidth: 1,
+                    linecolor: '#ffb500',
+                    extendLines: true,
+                    'trendline.visible': 'false',
+                    'level10.visible': 'false',
+                    'level9.visible': 'false',
+                    'level11.visible': 'false'
                 }
             }
         );

@@ -25,7 +25,7 @@ export class StockChartSignalsService {
     fourMonthAgo = Math.floor(new Date().valueOf() / 1000 - 4 * 30 * 24 * 60 * 60);
     today = Math.floor(new Date().valueOf() / 1000);
     constructor(private _http: Http) { }
-    getGapSignals(from: string, to: string, symbol: string): Observable<IStockChartSignal[]> {
+    getGapSignalsWithFibProjections(from: string, to: string, symbol: string): Observable<IStockChartSignal[]> {
         const params = new URLSearchParams();
         params.set('to', to);
         params.set('from', from);
@@ -50,7 +50,7 @@ export class StockChartSignalsService {
         // return subject;
     }
 
-    getThreeArrowSignals(from: string, to: string, symbol: string): Observable<IStockChartSignal[]> {
+    getThreeArrowSignalsWithFibProjections(from: string, to: string, symbol: string): Observable<IStockChartSignal[]> {
         const params = new URLSearchParams();
         params.set('to', to);
         params.set('from', from);

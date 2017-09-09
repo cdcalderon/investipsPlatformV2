@@ -108,6 +108,7 @@ import {StockChartSignalsService} from './tradingview-chart/stock-chart-signals-
 import {SignalFilterComponent} from './signal-filter/signal-filter-component';
 import {Stoch307SignalsComponent} from './stock-market-signals/stoch-307/stoch307-signals-component';
 import {Stoch307SignalsService} from './stock-market-signals/stoch-307/stoch307-signals-service';
+import {PaidMemberChartStudiesService} from './tradingview-chart/paid-member-chart-studies-service';
 
 @NgModule({
     imports: [
@@ -222,7 +223,8 @@ import {Stoch307SignalsService} from './stock-market-signals/stoch-307/stoch307-
             ThreeArrowsService,
             StockChartSignalsService,
             StockSymbolService,
-            Stoch307SignalsService
+            Stoch307SignalsService,
+        PaidMemberChartStudiesService
     ],
     bootstrap:[AppComponent]
 })
