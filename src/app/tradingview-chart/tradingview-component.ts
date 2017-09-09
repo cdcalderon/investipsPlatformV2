@@ -371,28 +371,34 @@ export class TradingviewComponent implements OnInit, AfterViewInit{
     }
     createFibExtension(widgetShape: WidgetShape) {
         widgetShape.chart.createMultipointShape(
+
             [
                 {time: widgetShape.time, price: widgetShape.aPivot},
                 {time: widgetShape.time, price: widgetShape.bPivot},
                 {time: widgetShape.extendedTime, price: widgetShape.cPivot}
             ],
             {
+                overrides: {
+                    extendLines: true,
+                    fillBackground: false,
+                    showCoeffs: false,
+                    "level1.color":'#ff04a1',
+                    'trendline.visible': false,
+                    'level10.visible': false,
+                    'level9.visible': false,
+                    'level11.visible': false,
+                    'level1.visible': false,
+                    'level2.visible': false
+
+                },
                 shape: 'fib_trend_ext',
                 lock: false,
-                disableSelection: true,
-                disableSave: true,
-                disableUndo: true,
-                overrides: {
-                    showLabel: true,
-                    fontSize: 12,
-                    linewidth: 1,
-                    linecolor: '#ffb500',
-                    extendLines: true,
-                    'trendline.visible': 'false',
-                    'level10.visible': 'false',
-                    'level9.visible': 'false',
-                    'level11.visible': 'false'
-                }
+
+              //  disableSelection: true,
+               // disableSave: true,
+              //  disableUndo: true,
+
+              //
             }
         );
     }
