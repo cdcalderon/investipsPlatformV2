@@ -18,6 +18,7 @@ declare var Datafeeds: any;
     templateUrl: './tradingview-component.html',
     styleUrls: ['./tradingview-component.scss']
 })
+
 export class TradingviewComponent implements OnInit, AfterViewInit{
 
     signals: SelectItem[];
