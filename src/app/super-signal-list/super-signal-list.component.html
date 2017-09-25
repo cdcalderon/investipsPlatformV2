@@ -1,0 +1,12 @@
+<p-orderList [value]="superSignals" [listStyle]="{'height':'250px'}" [responsive]="true" header="Super Signals"
+             filter="filter" filterBy="symbol" filterPlaceholder="      Filter by symbol" dragdrop="true">
+  <ng-template let-signal pTemplate="item">
+    <div class="ui-helper-clearfix">
+      <img src="http://www.nasdaq.com/logos/{{signal.symbol}}.GIF" style="display:inline-block;margin:2px 0 2px 2px" width="48">
+      <span style="margin-left: 10px">{{signal.symbol}}</span>
+      <span style="margin-left: 10px">{{signal.date}}</span>
+      <div style="float:right"><img  src="http://www.nasdaq.com/logos/{{signal.symbol}}.GIF" style="display:inline-block;margin:2px 0 2px 2px" width="48"></div>
+      <!--<div style="font-size:14px;float:right;margin:15px 5px 0 0">{{signal.symbol}} - {{signal.signalType}} - {{signal.date}}</div>-->
+    </div>
+  </ng-template>
+</p-orderList>

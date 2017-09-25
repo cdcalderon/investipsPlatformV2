@@ -1,0 +1,36 @@
+<!-- Start TC2000 widget -->
+<iframe width="-100" noresize="noresize" scrolling="no" height="20" frameborder="0" src="https://widgets.tc2000.com/WidgetServer.ashx?id=70849"></iframe>
+<!-- END TC2000 Widget -->
+
+<div class="ui-g ui-fluid" >
+  <div class="ui-g-12 ui-md-4">
+    <app-signalrousel [autoplayInterval]="6000" [easing]="'ease-in'" [signalType]="'gap'"></app-signalrousel>
+
+  </div>
+  <div class="ui-g-12 ui-md-4">
+    <app-signalrousel [autoplayInterval]="5000" [effectDuration]="750"></app-signalrousel>
+  </div>
+  <div class="ui-g-12 ui-md-4">
+    <app-signalrousel [autoplayInterval]="7500"></app-signalrousel>
+  </div>
+
+  <div class="ui-g-12 ui-md-8" style="height: 600px !important;">
+    <app-tradingview   [hostComponent]="hostComponent"  [marksType]="marksType" [symbol]="selectedNavSymbol"></app-tradingview>
+  </div>
+
+  <div class="ui-g-12 ui-md-4">
+    <app-super-signal-list></app-super-signal-list>
+  </div>
+
+
+
+</div>
+
+
+<!--<div class="ui-g-12">-->
+  <!--<div class="ui-g-12 ui-md-2" style="background-color: #0a8dff"> col 1</div>-->
+  <!--<div class="ui-g-12 ui-md-9 " style="background-color: #0a8415" [style.width]="app.rotateMenuButton === true ? '99%' : '85%'" >-->
+    <!--<app-tradingview [hostComponent]="hostComponent"  [marksType]="marksType" [symbol]="selectedNavSymbol"></app-tradingview>-->
+  <!--</div>-->
+  <!--<div class="ui-g-12 ui-md-1" style="background-color: red"> col 3</div>-->
+<!--</div>-->
