@@ -109,6 +109,12 @@ import {SignalFilterComponent} from './signal-filter/signal-filter-component';
 import {Stoch307SignalsComponent} from './stock-market-signals/stoch-307/stoch307-signals-component';
 import {Stoch307SignalsService} from './stock-market-signals/stoch-307/stoch307-signals-service';
 import {PaidMemberChartStudiesService} from './tradingview-chart/paid-member-chart-studies-service';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardService } from './dashboard/dashboard.service';
+import { SuperSignalListComponent } from './super-signal-list/super-signal-list.component';
+import { SuperSignalListService } from './super-signal-list/super-signal-list.service';
+import { SignalrouselComponent } from './signalrousel/signalrousel.component';
+import { SignalrouselService } from './signalrousel/signalrousel.service';
 
 @NgModule({
     imports: [
@@ -209,7 +215,11 @@ import {PaidMemberChartStudiesService} from './tradingview-chart/paid-member-cha
         ThreeArrowsComponent,
         TradingviewComponent,
         SignalFilterComponent,
-        Stoch307SignalsComponent
+        Stoch307SignalsComponent,
+        DashboardComponent,
+        SuperSignalListComponent,
+        SignalrouselComponent,
+
     ],
     providers: [
         {
@@ -224,7 +234,10 @@ import {PaidMemberChartStudiesService} from './tradingview-chart/paid-member-cha
             StockChartSignalsService,
             StockSymbolService,
             Stoch307SignalsService,
-        PaidMemberChartStudiesService
+            PaidMemberChartStudiesService,
+            SuperSignalListService,
+            DashboardService,
+            SignalrouselService
     ],
     bootstrap:[AppComponent]
 })

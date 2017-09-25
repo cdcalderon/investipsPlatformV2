@@ -18,9 +18,11 @@ import {StockMarketChartComponent} from './stock-market-chart/stock-market-chart
 import {GapSignalsComponent} from './stock-market-signals/gaps/gap-signals-component';
 import {ThreeArrowsComponent} from "./stock-market-signals/three-arrows/three-arrows-signals-component";
 import {Stoch307SignalsComponent} from "./stock-market-signals/stoch-307/stoch307-signals-component";
+import {DashboardComponent} from "./dashboard/dashboard.component";
 
 export const routes: Routes = [
-    {path: '', component: DashboardDemo},
+   // {path: '', component: DashboardDemo},
+    {path: '', component: DashboardComponent},
     {path: 'gapsignals', component: GapSignalsComponent},
     {path: 'threearrows', component: ThreeArrowsComponent},
     {path: 'stoch307', component: Stoch307SignalsComponent},

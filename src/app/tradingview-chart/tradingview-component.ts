@@ -26,6 +26,7 @@ export class TradingviewComponent implements OnInit, AfterViewInit{
     chartObject: any;
     @Input() symbol: string;
     @Input() marksType: string;
+    @Input() hostComponent: string;
     errorMessage: string;
     gapSignals: IStockChartSignal;
     memberStudies: SecurityWidgetDefinition;
@@ -78,67 +79,24 @@ export class TradingviewComponent implements OnInit, AfterViewInit{
     }
 
     renderTradingViewComponent() {
+        let chartWidgetOptions: any;
        // TradingView.onready(function() {
         const symbol = this.symbol;
 
         // const udf_datafeed = new Datafeeds.UDFCompatibleDatafeed('http://localhost:4000', null, this.marksType);
         const udf_datafeed = new Datafeeds.UDFCompatibleDatafeed(environment.stockMarketQuotesWithIndicatorsApiBaseUrl, null, this.marksType);
 
-            const widget = new TradingView.widget({
-                fullscreen: true,
-                symbol: symbol,
-                interval: 'D',
-                toolbar_bg: '#f4f7f9',
-                container_id: 'tv_chart_container',
-                // BEWARE: no trailing slash is expected in feed URL
-                datafeed: udf_datafeed,
-                library_path: '../../assets/charting_library/',
-                // Regression Trend-related functionality is not implemented yet, so it's hidden for a while
-                drawings_access: { type: 'black', tools: [ { name: 'Regression Trend' } ] },
-                disabled_features: ['save_chart_properties_to_local_storage', 'volume_force_overlay'],
-                enabled_features: ['move_logo_to_main_pane', 'study_templates'],
-                overrides: {
-                    'volumePaneSize': 'tiny',
-                    'paneProperties.background': '#222222',
-                    'paneProperties.vertGridProperties.color': '#454545',
-                    'paneProperties.horzGridProperties.color': '#454545',
-                    'symbolWatermarkProperties.transparency': 90,
-                    'scalesProperties.textColor' : '#AAA'
-                },
-                studies_overrides: {
-                    'volume.volume.color.0': '#ff252d',
-                    'volume.volume.color.1': '#36ff19',
-                    'volume.volume.transparency': 70,
-                    'volume.volume ma.color': '#f9fffd',
-                    'volume.volume ma.transparency': 30,
-                    'volume.volume ma.linewidth': 1,
-                    'volume.show ma': true,
-                    'bollinger bands.median.color': '#33FF88',
-                    'bollinger bands.upper.linewidth': 7
-                },
-                debug: true,
-                time_frames: [
-                    { text: '50y', resolution: '6M' },
-                    { text: '3y', resolution: 'W' },
-                    { text: '8m', resolution: 'D' },
-                    { text: '2m', resolution: 'D' },
-                    { text: '1m', resolution: '60' },
-                    { text: '1w', resolution: '30' },
-                    { text: '7d', resolution: '30' },
-                    { text: '5d', resolution: '10' },
-                    { text: '3d', resolution: '10' },
-                    { text: '2d', resolution: '5' },
-                    { text: '1d', resolution: '5' }
-                ],
-                charts_storage_url: 'http://saveload.tradingview.com',
-                charts_storage_api_version: '1.1',
-                client_id: 'tradingview.com',
-                user_id: 'public_user',
-                favorites: {
-                    intervals: ['1D', '3D', '3W', 'W', 'M'],
-                    chartTypes: ['Area', 'Line']
-                }
-            });
+       // const udf_datafeed2 = new Datafeeds.UDFCompatibleDatafeed('https://demo_feed.tradingview.com', null, this.marksType);
+
+        if(this.hostComponent === 'dashboard') {
+            chartWidgetOptions = this.getChartDashboardOptions(symbol, udf_datafeed);
+        } else {
+            chartWidgetOptions = this.getChartSignalOptions(symbol, udf_datafeed);
+        }
+
+
+
+            const widget = new TradingView.widget(chartWidgetOptions);
 
         this.onWidgetReady(this, widget, this._stockChartSignalService);
         // }); // end of TradingView.onready
@@ -325,7 +283,7 @@ export class TradingviewComponent implements OnInit, AfterViewInit{
                         error => this.errorMessage = <any>error
                     );
             }
-            tradingviewComponent.getPaidMemberStudies();
+            //tradingviewComponent.getPaidMemberStudies();
 
         }); // end of widget.onChartReady
     }
@@ -402,6 +360,130 @@ export class TradingviewComponent implements OnInit, AfterViewInit{
               //
             }
         );
+    }
+
+    getChartSignalOptions(symbol: string, udf_datafeed: string) {
+        let options = {
+            fullscreen: true,
+            symbol: symbol,
+            interval: 'D',
+            toolbar_bg: '#f4f7f9',
+            container_id: 'tv_chart_container',
+            // BEWARE: no trailing slash is expected in feed URL
+            datafeed: udf_datafeed,
+            library_path: '../../assets/charting_library/',
+            // Regression Trend-related functionality is not implemented yet, so it's hidden for a while
+            drawings_access: { type: 'black', tools: [ { name: 'Regression Trend' } ] },
+            disabled_features: ['save_chart_properties_to_local_storage', 'volume_force_overlay'],
+            enabled_features: ['move_logo_to_main_pane', 'study_templates'],
+            overrides: {
+                'volumePaneSize': 'tiny',
+                'paneProperties.background': '#222222',
+                'paneProperties.vertGridProperties.color': '#454545',
+                'paneProperties.horzGridProperties.color': '#454545',
+                'symbolWatermarkProperties.transparency': 90,
+                'scalesProperties.textColor' : '#AAA'
+            },
+            studies_overrides: {
+                'volume.volume.color.0': '#ff252d',
+                'volume.volume.color.1': '#36ff19',
+                'volume.volume.transparency': 70,
+                'volume.volume ma.color': '#f9fffd',
+                'volume.volume ma.transparency': 30,
+                'volume.volume ma.linewidth': 1,
+                'volume.show ma': true,
+                'bollinger bands.median.color': '#33FF88',
+                'bollinger bands.upper.linewidth': 7
+            },
+            debug: true,
+            time_frames: [
+                { text: '50y', resolution: '6M' },
+                { text: '3y', resolution: 'W' },
+                { text: '8m', resolution: 'D' },
+                { text: '2m', resolution: 'D' },
+                { text: '1m', resolution: '60' },
+                { text: '1w', resolution: '30' },
+                { text: '7d', resolution: '30' },
+                { text: '5d', resolution: '10' },
+                { text: '3d', resolution: '10' },
+                { text: '2d', resolution: '5' },
+                { text: '1d', resolution: '5' }
+            ],
+            //charts_storage_url: 'http://saveload.tradingview.com',
+            charts_storage_url: 'http://localhost:5000',
+            charts_storage_api_version: 'api',
+            //charts_storage_api_version: '1.1',
+            client_id: 'tradingview.com',
+            user_id: 'public_user',
+            favorites: {
+                intervals: ['1D', '3D', '3W', 'W', 'M'],
+                chartTypes: ['Area', 'Line']
+            }
+        }
+        return options;
+    }
+
+    getChartDashboardOptions(symbol: string, udf_datafeed: string) {
+        let options = {
+            fullscreen: true,
+            autosize: true,
+            height: 650,
+            symbol: symbol,
+            interval: 'D',
+            toolbar_bg: '#f4f7f9',
+            container_id: 'tv_chart_container',
+            // BEWARE: no trailing slash is expected in feed URL
+            datafeed: udf_datafeed,
+            library_path: '../../assets/charting_library/',
+            // Regression Trend-related functionality is not implemented yet, so it's hidden for a while
+            drawings_access: { type: 'black', tools: [ { name: 'Regression Trend' } ] },
+           // disabled_features: ['save_chart_properties_to_local_storage', 'volume_force_overlay'],
+           // enabled_features: ['move_logo_to_main_pane', 'study_templates'],
+            overrides: {
+                'volumePaneSize': 'tiny',
+                'paneProperties.background': '#222222',
+                'paneProperties.vertGridProperties.color': '#454545',
+                'paneProperties.horzGridProperties.color': '#454545',
+                'symbolWatermarkProperties.transparency': 90,
+                'scalesProperties.textColor' : '#AAA'
+            },
+            studies_overrides: {
+                'volume.volume.color.0': '#ff252d',
+                'volume.volume.color.1': '#36ff19',
+                'volume.volume.transparency': 70,
+                'volume.volume ma.color': '#f9fffd',
+                'volume.volume ma.transparency': 30,
+                'volume.volume ma.linewidth': 1,
+                'volume.show ma': true,
+                'bollinger bands.median.color': '#33FF88',
+                'bollinger bands.upper.linewidth': 7
+            },
+            //debug: true,
+            time_frames: [
+                { text: '50y', resolution: '6M' },
+                { text: '3y', resolution: 'W' },
+                { text: '8m', resolution: 'D' },
+                { text: '2m', resolution: 'D' },
+                { text: '1m', resolution: '60' },
+                { text: '1w', resolution: '30' },
+                { text: '7d', resolution: '30' },
+                { text: '5d', resolution: '10' },
+                { text: '3d', resolution: '10' },
+                { text: '2d', resolution: '5' },
+                { text: '1d', resolution: '5' }
+            ],
+            //charts_storage_url: 'http://saveload.tradingview.com',
+            // charts_storage_url: 'http://localhost:5000',
+            // charts_storage_api_version: 'api',
+            // //charts_storage_api_version: '1.1',
+            // client_id: 'tradingview.com',
+            // user_id: 'public_user',
+            // favorites: {
+            //     intervals: ['1D', '3D', '3W', 'W', 'M'],
+            //     chartTypes: ['Area', 'Line']
+            // }
+        }
+        return options;
     }
 
     monthAdd(date, month) {
