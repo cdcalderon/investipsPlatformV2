@@ -11,7 +11,7 @@ export class AuthService {
         domain: AUTH_CONFIG.domain,
         responseType: 'token id_token',
         audience: `https://${AUTH_CONFIG.domain}/userinfo`,
-        redirectUri: 'http://localhost:4200',
+        redirectUri: 'http://localhost:4200/callback',
         scope: 'openid'
     });
 
@@ -26,9 +26,9 @@ export class AuthService {
             if (authResult && authResult.accessToken && authResult.idToken) {
                 window.location.hash = '';
                 this.setSession(authResult);
-                this.router.navigate(['/home']);
+                this.router.navigate(['/']);
             } else if (err) {
-                this.router.navigate(['/home']);
+                this.router.navigate(['/']);
                 console.log(err);
                 alert(`Error: ${err.error}. Check the console for further details.`);
             }

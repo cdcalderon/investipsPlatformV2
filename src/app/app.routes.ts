@@ -41,7 +41,8 @@ export const routes: Routes = [
     {path: 'charts', component: ChartsDemo},
     {path: 'file', component: FileDemo},
     {path: 'utils', component: UtilsDemo},
-    {path: 'documentation', component: Documentation}
+    {path: 'documentation', component: Documentation},
+    { path: '**', redirectTo: '' }
 ];
 
 export const AppRoutes: ModuleWithProviders = RouterModule.forRoot(routes);
