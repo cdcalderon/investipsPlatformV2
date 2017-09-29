@@ -16,10 +16,16 @@ export class SignalrouselService {
 
   constructor(private _http: Http) { }
 
-  getTopSignals(from: number, to: number, symbols: string[]): Observable<ISignalRousel[]> {
+  getTopSignals(signalType: string, from: number, to: number, symbols: string[]): Observable<ISignalRousel[]> {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    const params = new URLSearchParams()
+    const params = new URLSearchParams();
+
+    let api = {
+      gap: 'gapsignals',
+      threeArrow: 'threearrowsignals',
+      stoch307: 'signals/stoch307/bullwithfilter'
+    };
 
     let query = {
       from: from,
@@ -27,7 +33,7 @@ export class SignalrouselService {
       symbols: symbols
     };
 
-    return this._http.post(`${this._stockQuotesAndIndicatorssUrlBase}/api/gapsignals/filter/ranking`, JSON.stringify(query), {headers: headers})
+    return this._http.post(`${this._stockQuotesAndIndicatorssUrlBase}/api/${api[signalType]}/filter/ranking`, JSON.stringify(query), {headers: headers})
         .map((response: Response) =>  {
           return <ISignalRousel[]> response.json();
         })

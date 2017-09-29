@@ -24,8 +24,8 @@ export class SignalrouselComponent implements OnInit {
   ngOnInit() {
     let from = this.monthAdd(new Date(), -10);
     let to =  this.monthAdd(new Date(), 0);
-    if(this.signalType === 'gap') {
-      this.signalrouselService.getTopSignals(from, to, ['AAPL', 'AMZN', 'CSCO', 'PCLN'])
+    if(this.signalType) {
+      this.signalrouselService.getTopSignals(this.signalType, from, to, ['AAPL', 'AMZN', 'CSCO', 'PCLN'])
           .subscribe(topSignals => {
             this.signals = topSignals;
               },
