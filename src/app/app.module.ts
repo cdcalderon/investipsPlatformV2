@@ -115,6 +115,8 @@ import { SuperSignalListComponent } from './super-signal-list/super-signal-list.
 import { SuperSignalListService } from './super-signal-list/super-signal-list.service';
 import { SignalrouselComponent } from './signalrousel/signalrousel.component';
 import { SignalrouselService } from './signalrousel/signalrousel.service';
+import {AuthService} from './auth/auth.service';
+import { CallbackComponent } from './callback/callback.component';
 
 @NgModule({
     imports: [
@@ -219,6 +221,7 @@ import { SignalrouselService } from './signalrousel/signalrousel.service';
         DashboardComponent,
         SuperSignalListComponent,
         SignalrouselComponent,
+        CallbackComponent,
 
     ],
     providers: [
@@ -237,7 +240,8 @@ import { SignalrouselService } from './signalrousel/signalrousel.service';
             PaidMemberChartStudiesService,
             SuperSignalListService,
             DashboardService,
-            SignalrouselService
+            SignalrouselService,
+            AuthService
     ],
     bootstrap:[AppComponent]
 })

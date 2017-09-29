@@ -3,6 +3,7 @@ import {Location} from '@angular/common';
 import {Router} from '@angular/router';
 import {MenuItem} from 'primeng/primeng';
 import {AppComponent} from './app.component';
+import {AuthService} from "./auth/auth.service";
 
 @Component({
     selector: 'inline-profile',
@@ -34,10 +35,16 @@ import {AppComponent} from './app.component';
                     <span>Settings</span>
                 </a>
             </li>
-            <li role="menuitem">
+            <li (click)="auth.logout()"  *ngIf="auth.isAuthenticated()" role="menuitem">
                 <a href="#" class="ripplelink" [attr.tabindex]="!active ? '-1' : null">
                     <i class="material-icons">power_settings_new</i>
                     <span>Logout</span>
+                </a>
+            </li>
+            <li *ngIf="!auth.isAuthenticated()" role="menuitem">
+                <a (click)="auth.login()" class="ripplelink" [attr.tabindex]="!active ? '-1' : null">
+                    <i class="material-icons">power_settings_new</i>
+                    <span>Login</span>
                 </a>
             </li>
         </ul>
@@ -58,6 +65,10 @@ import {AppComponent} from './app.component';
 export class InlineProfileComponent {
 
     active: boolean;
+
+    constructor(public auth: AuthService) {
+        auth.handleAuthentication();
+    }
 
     onClick(event) {
         this.active = !this.active;

@@ -33,8 +33,8 @@
           "../node_modules/chart.js/dist/Chart.js",
           "../node_modules/fullcalendar/dist/fullcalendar.js",
           "../node_modules/quill/dist/quill.js",
-        "../src/assets/charting_library/charting_library.min.js",
-        "../node_modules/auth0-js/build/auth0.js",
+          "../src/assets/charting_library/charting_library.min.js",
+          "../node_modules/auth0-js/build/auth0.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
