@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { AUTH_CONFIG } from './auth0-variables';
 import { Router } from '@angular/router';
 import * as auth0 from 'auth0-js';
+declare var Auth0Lock: any;
 
 @Injectable()
 export class AuthService {
-
+    profile: any;
     auth0 = new auth0.WebAuth({
         clientID: AUTH_CONFIG.clientID,
         domain: AUTH_CONFIG.domain,
@@ -18,7 +19,13 @@ export class AuthService {
         }
     });
 
-    constructor(public router: Router) {}
+    lock = new Auth0Lock(
+    'Tvuppr5MN-nyZ9JDBIlhE_Jsvy3TmABj',
+    'investips.auth0.com');
+
+    constructor(public router: Router) {
+        this.profile = JSON.parse(localStorage.getItem('profile'));
+    }
 
     public login(): void {
         this.auth0.authorize();
@@ -29,11 +36,14 @@ export class AuthService {
             if (authResult && authResult.accessToken) {
                 window.location.hash = '';
                 this.setSession(authResult);
-                this.auth0.getUserInfo(authResult.accessToken, (error, profile) => {
-                    if(error)
-                        throw error;
+                this.lock.getUserInfo(authResult.accessToken, function(error, profile) {
+                    if (error) {
+                        // Handle error
+                        return;
+                    }
 
-
+                    localStorage.setItem('profile', JSON.stringify(profile));
+                    this.profile = profile;
                 });
                 this.router.navigate(['/']);
             } else if (err) {
@@ -57,6 +67,8 @@ export class AuthService {
         localStorage.removeItem('access_token');
         //localStorage.removeItem('id_token');
         localStorage.removeItem('expires_at');
+        localStorage.removeItem('profile');
+        this.profile = null;
         // Go back to the home route
         this.router.navigate(['/']);
     }
