@@ -7,5 +7,6 @@ export const environment = {
   production: false,
   stockMarketQuotesWithIndicatorsApiBaseUrl: 'http://localhost:4000',
   stockMarketUDFApiBaseUrl: 'http://localhost:4600',
-  investipsServerWebAPIBaseUrl: 'http://localhost:3308'
+  investipsServerWebAPIBaseUrl: 'http://localhost:3308',
+  investipsDotnetApi: 'http://investipsapi.azurewebsites.net'
 };

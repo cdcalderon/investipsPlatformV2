@@ -83,6 +83,7 @@ export class AuthService {
 }
 
 //
+//
 // <!DOCTYPE html>
 // <html>
 //     <head>
@@ -123,8 +124,17 @@ export class AuthService {
 //     auth: {
 //         redirectUrl: config.callbackURL,
 //         responseType: 'token',
-//         params: config.internalOptions
+//         params: {
+//             audience: "https://api.investips.com",
+//             scope: "openid email profile"
+//         }
 //     },
+//     additionalSignUpFields: [
+//         {
+//             name: "name",
+//             placeholder: "Name"
+//         }
+//     ],
 //     assetsUrl:  config.assetsUrl,
 //     allowedConnections: connection ? [connection] : null,
 //     rememberLastLogin: !prompt,

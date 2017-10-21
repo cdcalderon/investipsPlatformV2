@@ -21,6 +21,8 @@ declare var Datafeeds: any;
 
 export class TradingviewComponent implements OnInit, AfterViewInit{
 
+    private _investipsDotnetApiUrlBase = environment.investipsDotnetApi;
+
     signals: SelectItem[];
     selectedSignal: string;
     chartObject: any;
@@ -410,7 +412,8 @@ export class TradingviewComponent implements OnInit, AfterViewInit{
                 { text: '1d', resolution: '5' }
             ],
             //charts_storage_url: 'http://saveload.tradingview.com',
-            charts_storage_url: 'http://localhost:5000',
+            //charts_storage_url: 'http://localhost:5000',
+            charts_storage_url: this._investipsDotnetApiUrlBase,
             charts_storage_api_version: 'api',
             //charts_storage_api_version: '1.1',
             client_id: 'tradingview.com',
@@ -419,7 +422,8 @@ export class TradingviewComponent implements OnInit, AfterViewInit{
                 intervals: ['1D', '3D', '3W', 'W', 'M'],
                 chartTypes: ['Area', 'Line']
             }
-        }
+        };
+
         return options;
     }
 
