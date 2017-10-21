@@ -4,4 +4,5 @@ export const environment = {
   stockMarketUDFApiBaseUrl: 'https://enigmatic-waters-56889.herokuapp.com',
   investipsServerWebAPIBaseUrl: 'http://localhost:3308',
   investipsDotnetApi: 'http://investipsapi.azurewebsites.net'
+
 };
