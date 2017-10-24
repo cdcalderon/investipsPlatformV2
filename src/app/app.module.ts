@@ -117,6 +117,7 @@ import { SignalrouselComponent } from './signalrousel/signalrousel.component';
 import { SignalrouselService } from './signalrousel/signalrousel.service';
 import {AuthService} from './auth/auth.service';
 import { CallbackComponent } from './callback/callback.component';
+import { PortfolioComponent } from './portfolio/portfolio.component';
 
 @NgModule({
     imports: [
@@ -222,6 +223,7 @@ import { CallbackComponent } from './callback/callback.component';
         SuperSignalListComponent,
         SignalrouselComponent,
         CallbackComponent,
+        PortfolioComponent,
 
     ],
     providers: [
