@@ -13,7 +13,7 @@ export class PortfolioComponent implements OnInit {
     this.portfolioList = [{
       symbol: 'AAPL'
     },{
-      symbol: 'MSFT'
+      symbol: 'PCLN'
     }
     ];
   }
