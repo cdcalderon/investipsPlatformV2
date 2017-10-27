@@ -13,6 +13,7 @@ export class DashboardComponent implements OnInit {
   constructor(@Inject(forwardRef(() => AppComponent)) public app: AppComponent) { }
 
   ngOnInit() {
+
     this.marksType = 'gap';
     this.selectedNavSymbol = 'AAPL';
   }
