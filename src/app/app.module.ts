@@ -115,7 +115,7 @@ import { SuperSignalListComponent } from './super-signal-list/super-signal-list.
 import { SuperSignalListService } from './super-signal-list/super-signal-list.service';
 import { SignalrouselComponent } from './signalrousel/signalrousel.component';
 import { SignalrouselService } from './signalrousel/signalrousel.service';
-import {AuthService} from './auth/auth.service';
+import { AuthService } from './auth/auth.service';
 import { CallbackComponent } from './callback/callback.component';
 import { PortfolioComponent } from './portfolio/portfolio.component';
 

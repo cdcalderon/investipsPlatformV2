@@ -20,12 +20,14 @@ import {ThreeArrowsComponent} from "./stock-market-signals/three-arrows/three-ar
 import {Stoch307SignalsComponent} from "./stock-market-signals/stoch-307/stoch307-signals-component";
 import {DashboardComponent} from "./dashboard/dashboard.component";
 import {CallbackComponent} from "./callback/callback.component";
+import {PortfolioComponent} from './portfolio/portfolio.component';
 
 export const routes: Routes = [
    // {path: '', component: DashboardDemo},
     {path: '', component: DashboardComponent},
-    { path: 'callback', component: CallbackComponent },
+    {path: 'callback', component: CallbackComponent },
     {path: 'gapsignals', component: GapSignalsComponent},
+    {path: 'portfolios', component: PortfolioComponent},
     {path: 'threearrows', component: ThreeArrowsComponent},
     {path: 'stoch307', component: Stoch307SignalsComponent},
     {path: 'marketchart/:id/:marktype', component: StockMarketChartComponent},
@@ -42,7 +44,7 @@ export const routes: Routes = [
     {path: 'file', component: FileDemo},
     {path: 'utils', component: UtilsDemo},
     {path: 'documentation', component: Documentation},
-    { path: '**', redirectTo: '' }
+    {path: '**', redirectTo: '' }
 ];
 
 export const AppRoutes: ModuleWithProviders = RouterModule.forRoot(routes);
