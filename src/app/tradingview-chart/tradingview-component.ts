@@ -9,7 +9,7 @@ import * as moment from 'moment';
 import { environment } from '../../environments/environment';
 import {PaidMemberChartStudiesService} from "./paid-member-chart-studies-service";
 import {SecurityWidgetDefinition} from "./SecurityWidgetDefinition";
-
+declare var jQuery:any;
 declare var TradingView: any;
 declare var Datafeeds: any;
 
@@ -441,6 +441,7 @@ export class TradingviewComponent implements OnInit, AfterViewInit{
             }
         );
     }
+
 
     getChartSignalOptions(symbol: string, udf_datafeed: string) {
         let options = {

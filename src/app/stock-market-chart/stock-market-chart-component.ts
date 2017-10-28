@@ -1,6 +1,7 @@
 import {Component, OnInit, ViewChild, ViewContainerRef, ComponentFactoryResolver,Inject,forwardRef} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {AppComponent} from '../app.component';
+declare var jQuery:any;
 
 @Component({
     templateUrl: './stock-market-chart-component.html',
