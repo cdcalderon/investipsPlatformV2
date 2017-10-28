@@ -1,5 +1,5 @@
 
-<p-carousel #carousel headerText="Gaps" circular="circular" [easing]="easing || 'ease-out'" [value]="signals" numVisible="1" [autoplayInterval]="autoplayInterval">
+<p-carousel #carousel [headerText]="title" circular="circular" [easing]="easing || 'ease-out'" [value]="signals" numVisible="1" [autoplayInterval]="autoplayInterval">
   <ng-template let-signal pTemplate="item" >
     <div class="ui-grid ui-grid-responsive">
       <div class="ui-grid-row">

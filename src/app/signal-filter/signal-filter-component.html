@@ -9,7 +9,7 @@
     </div>
     <div class="ui-g-3" style="position: relative;top:-45px">
         <h4 style="text-align: center">Price Range: {{rangeValues[0] + ' - ' + rangeValues[1]}}</h4>
-        <p-slider [min]="1" [max]="2000" [(ngModel)]="rangeValues"  [range]="true"></p-slider>
+        <p-slider [min]="1" [max]="1000" [(ngModel)]="rangeValues"  [range]="true"></p-slider>
     </div>
     <div class="ui-g-2">
         <p-multiSelect [options]="caps" [(ngModel)]="selectedCaps"></p-multiSelect>

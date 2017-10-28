@@ -17,6 +17,7 @@ export class SignalrouselComponent implements OnInit {
   @Input()autoplayInterval: string;
   @Input()easing:string;
   @Input()effectDuration:number;
+  @Input() title: string;
   @ViewChild('carousel') car: Carousel;
 
   constructor(private signalrouselService:SignalrouselService) { }

@@ -214,10 +214,28 @@ export class TradingviewComponent implements OnInit, AfterViewInit{
         this.createFibExtension(widgetShape)
     }
 
+    onCreateStudy(widget, marksType) {
+        if(marksType === 'stoch307bull') {
+            widget.chart().createStudy(
+                'Stochastic',
+                false,
+                false,
+                [10, 1, 1],
+                null,
+                {'%d.color' : '#E3FFCA', '%k.color' : '#00FF00'}
+            );
 
-
-    onWidgetReady(tradingviewComponent, widget, stockChartSignalService) {
-        widget.onChartReady(function() {
+            widget.chart().createStudy(
+                'Moving Average',
+                true,
+                true, [
+                    7
+                ], function (guid) {
+                    console.log(guid);
+                },
+                {'plot.color.0' : '#fffa00'}
+            );
+        } else {
             widget.chart().createStudy(
                 'Stochastic',
                 false,
@@ -246,6 +264,66 @@ export class TradingviewComponent implements OnInit, AfterViewInit{
                 },
                 {'plot.color.0' : '#fffa00'}
             );
+
+        }
+    }
+
+    onWidgetReady(tradingviewComponent, widget, stockChartSignalService) {
+        widget.onChartReady(function() {
+
+            if(tradingviewComponent.marksType === 'stoch307bull') {
+                widget.chart().createStudy(
+                    'Stochastic',
+                    false,
+                    false,
+                    [10, 1, 1],
+                    null,
+                    {'%d.color' : '#E3FFCA', '%k.color' : '#00FF00'}
+                );
+
+                widget.chart().createStudy(
+                    'Moving Average',
+                    false,
+                    true, [
+                        7
+                    ], function (guid) {
+                        console.log(guid);
+                    },
+                    {'plot.color.0' : '#fffa00'}
+                );
+            } else {
+                widget.chart().createStudy(
+                    'Stochastic',
+                    false,
+                    false,
+                    [14, 5, 5],
+                    null,
+                    {'%d.color' : '#E3FFCA', '%k.color' : '#00FF00'}
+                );
+
+                widget.chart().createStudy(
+                    'MACD',
+                    false,
+                    false,
+                    [8, 17, 'close', 9],
+                    null,
+                    {'macd.color' : '#00FF00', 'signal.color' : '#fffa00', 'histogram.color' : '#00F9FF'}
+                );
+
+                widget.chart().createStudy(
+                    'Moving Average',
+                    false,
+                    true, [
+                        10
+                    ], function (guid) {
+                        console.log(guid);
+                    },
+                    {'plot.color.0' : '#fffa00'}
+                );
+
+            }
+
+            //this.onCreateStudy(widget, tradingviewComponent.marksType);
 
             tradingviewComponent.setChartObject.bind(tradingviewComponent)(widget.chart());
 

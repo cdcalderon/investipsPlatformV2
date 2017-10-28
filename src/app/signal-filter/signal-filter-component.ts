@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Output} from "@angular/core";
+import {Component, EventEmitter, Output, Input} from "@angular/core";
 import {SelectItem} from 'primeng/primeng';
 import {StockSymbolService} from "../common/stock-symbols-service";
 import {IFilterCriteria} from "../shared/filter-criteria-model";
@@ -16,13 +16,14 @@ export class SignalFilterComponent {
     errorMessage: string;
     @Output() applyFilter = new EventEmitter<any>();
 
+
     exchanges: SelectItem[] = [
         {label:'NYSE', value: 'nyse'},
         {label:'NASDAQ',value:'nasdaq'},
         {label:'AMEX', value:'amex'}
     ];
 
-    rangeValues: number[] = [1,2000];
+    rangeValues: number[] = [1,1000];
     caps: SelectItem[] = [
         {label:'Small', value:'s'},
         {label:'Mid',value:'m'},
