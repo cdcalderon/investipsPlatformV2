@@ -1,6 +1,7 @@
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {LocationStrategy, HashLocationStrategy} from '@angular/common';
@@ -118,6 +119,7 @@ import { SignalrouselService } from './signalrousel/signalrousel.service';
 import { AuthService } from './auth/auth.service';
 import { CallbackComponent } from './callback/callback.component';
 import { PortfolioComponent } from './portfolio/portfolio.component';
+import {SecuritiesService} from './common/securities/securities.service'
 
 @NgModule({
     imports: [
@@ -188,7 +190,8 @@ import { PortfolioComponent } from './portfolio/portfolio.component';
         ToolbarModule,
         TooltipModule,
         TreeModule,
-        TreeTableModule
+        TreeTableModule,
+        HttpClientModule
 
     ],
     declarations: [
@@ -243,7 +246,8 @@ import { PortfolioComponent } from './portfolio/portfolio.component';
             SuperSignalListService,
             DashboardService,
             SignalrouselService,
-            AuthService
+            AuthService,
+            SecuritiesService
     ],
     bootstrap:[AppComponent]
 })

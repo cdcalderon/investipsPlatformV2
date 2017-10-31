@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {SecuritiesService} from "../common/securities/securities.service";
+import {ISecurity} from "../common/securities/ISecurity";
 
 @Component({
   selector: 'app-portfolio',
@@ -7,15 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PortfolioComponent implements OnInit {
   portfolioList: any = [];
-  constructor() { }
+  securities: ISecurity[] = [];
+  errorMessage: any;
+
+  constructor(private _securityService: SecuritiesService) { }
 
   ngOnInit() {
-    this.portfolioList = [{
-      symbol: 'AAPL'
-    },{
-      symbol: 'PCLN'
-    }
-    ];
+    this._securityService.getSecurities().subscribe(
+        securities => this.securities = securities,
+        error => this.errorMessage = <any>error);
   }
 
 }
