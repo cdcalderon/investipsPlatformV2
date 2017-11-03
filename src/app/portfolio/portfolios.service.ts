@@ -6,5 +6,5 @@ export class PortfoliosService {
 
   constructor() { }
 
-  get
+
 }
