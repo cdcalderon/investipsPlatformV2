@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {MenuItem} from 'primeng/primeng';
 import {AppComponent} from './app.component';
 import {AuthService} from "./auth/auth.service";
+import {IUserProfile} from "./common/IUserProfile";
 
 @Component({
     selector: 'inline-profile',
@@ -11,7 +12,7 @@ import {AuthService} from "./auth/auth.service";
         <div class="profile" [ngClass]="{'profile-expanded':active}">
             <div class="profile-image"></div>
             <a href="#" (click)="onClick($event)">
-                <span class="profile-name">Carlos Calderon</span>
+                <span class="profile-name">{{profile?.name}}</span>
                 <i class="material-icons">keyboard_arrow_down</i>
             </a>
         </div>
@@ -62,12 +63,23 @@ import {AuthService} from "./auth/auth.service";
         ])
     ]
 })
-export class InlineProfileComponent {
+export class InlineProfileComponent implements OnInit{
 
     active: boolean;
+    profile: IUserProfile;
 
     constructor(public auth: AuthService) {
         auth.handleAuthentication();
+    }
+
+    ngOnInit() {
+        //this.profile = this.auth.profile;
+        let appProfileComponent = this;
+        this.auth.profileUpdated.subscribe(
+            (profile) => {
+                appProfileComponent.profile = this.auth.getProfile();
+            }
+        )
     }
 
     onClick(event) {

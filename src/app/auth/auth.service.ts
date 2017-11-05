@@ -1,12 +1,14 @@
-import { Injectable } from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import { AUTH_CONFIG } from './auth0-variables';
 import { Router } from '@angular/router';
 import * as auth0 from 'auth0-js';
+import {IUserProfile} from "../common/IUserProfile";
+import {Subject} from "rxjs/Subject";
 declare var Auth0Lock: any;
 
 @Injectable()
 export class AuthService {
-    profile: any;
+    profile: IUserProfile;
     auth0 = new auth0.WebAuth({
         clientID: AUTH_CONFIG.clientID,
         domain: AUTH_CONFIG.domain,
@@ -19,12 +21,29 @@ export class AuthService {
         }
     });
 
+    profileUpdated:EventEmitter<IUserProfile> = new EventEmitter();
+
+    userProfileChanged: Subject<IUserProfile> = new Subject<IUserProfile>();
+
+
     lock = new Auth0Lock(
     'Tvuppr5MN-nyZ9JDBIlhE_Jsvy3TmABj',
     'investips.auth0.com');
 
     constructor(public router: Router) {
+        // this.userProfileChanged.subscribe((value) => {
+        //     this.profile = value;
+        // });
+
         this.profile = JSON.parse(localStorage.getItem('profile'));
+
+        this.profileUpdated.emit(this.profile);
+       // this.userProfileChanged.next(this.profile);
+
+    }
+
+    public getProfile() {
+        return this.profile;
     }
 
     public login(): void {
@@ -33,6 +52,7 @@ export class AuthService {
 
     public handleAuthentication(): void {
         this.auth0.parseHash((err, authResult) => {
+            let authService = this;
             if (authResult && authResult.accessToken) {
                 window.location.hash = '';
                 this.setSession(authResult);
@@ -43,7 +63,10 @@ export class AuthService {
                     }
 
                     localStorage.setItem('profile', JSON.stringify(profile));
-                    this.profile = profile;
+                    authService.profile = profile;
+                   // authService.userProfileChanged.next(authService.profile);
+
+                    authService.profileUpdated.emit(authService.profile);
                 });
                 this.router.navigate(['/']);
             } else if (err) {
@@ -69,6 +92,7 @@ export class AuthService {
         localStorage.removeItem('expires_at');
         localStorage.removeItem('profile');
         this.profile = null;
+        this.profileUpdated.emit(this.profile);
         // Go back to the home route
         this.router.navigate(['/']);
     }
