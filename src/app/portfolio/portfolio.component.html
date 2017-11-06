@@ -1,34 +1,47 @@
+
+<p-growl [(value)]="msgs"></p-growl>
+
 <div class="ui-g ui-fluid">
   <div class="ui-g-12">
-    <signal-filter class="sig-filter"></signal-filter>
+    <signal-filter class="sig-filter" (applyFilter)="searchSecurities($event, 'filter')" ></signal-filter>
   </div>
 
-  <p-pickList [source]="securities"
-              [target]="portfolioList"
-              sourceHeader="Available"
-              targetHeader="Selected" [responsive]="true"
-              dragdrop="true"
-              dragdropScope="cars"
-              [sourceStyle]="{'height':'400px', 'width': '500px'}"
-              [targetStyle]="{'height':'400px', 'width': '500px'}">
-    <ng-template let-security pTemplate="item">
-      <div class="ui-helper-clearfix">
-        <img src="http://www.nasdaq.com/logos/{{security.symbol}}.GIF" style="display:inline-block;margin:2px 0 2px 2px" width="48">
-        <div style="font-size:14px;float:right;margin:15px 5px 0 0">{{security.symbol}}</div>
-      </div>
-    </ng-template>
-  </p-pickList>
 
-  <div class="ui-g-12">
-    <p-orderList [value]="portfolioList" [listStyle]="{'height':'250px'}" [responsive]="true" header="Portfolio"
-                 filter="filter" filterBy="symbol" filterPlaceholder="Filter by Symbol" dragdrop="true">
-      <ng-template let-portfolio pTemplate="item">
+    <input id="input" type="text" size="30" pInputText [(ngModel)]="portfolioName">
+    <p-panel>
+    <p-header>
+      <div class="ui-helper-clearfix">
+        <span class="ui-panel-title" style="font-size:16px;display:inline-block;margin-top:2px">Custom Header</span>
+        <button class="green-btn ui-button" style="width: 120px;float: right" (click)="savePortfolio()">Save</button>
+      </div>
+    </p-header>
+    <p-pickList [source]="securities"
+                [target]="portfolioList"
+                sourceHeader="Available"
+                targetHeader="Selected" [responsive]="true"
+                dragdrop="true"
+                dragdropScope="cars"
+                [sourceStyle]="{'height':'400px', 'width': '500px'}"
+                [targetStyle]="{'height':'400px', 'width': '500px'}">
+      <ng-template let-security pTemplate="item">
         <div class="ui-helper-clearfix">
-          <img src="http://www.nasdaq.com/logos/{{portfolio.symbol}}.GIF" style="display:inline-block;margin:2px 0 2px 2px" width="48">
-          <div style="font-size:14px;float:right;margin:15px 5px 0 0">{{portfolio.symbol}}</div>
+          <img src="http://www.nasdaq.com/logos/{{security.symbol}}.GIF" style="display:inline-block;margin:2px 0 2px 2px" width="48">
+          <div style="font-size:14px;float:right;margin:15px 5px 0 0">{{security.symbol}}</div>
         </div>
       </ng-template>
-    </p-orderList>
-  </div>
+    </p-pickList>
+  </p-panel>
+
+  <!--<div class="ui-g-12">-->
+    <!--<p-orderList [value]="portfolioList" [listStyle]="{'height':'250px'}" [responsive]="true" header="Portfolio"-->
+                 <!--filter="filter" filterBy="symbol" filterPlaceholder="Filter by Symbol" dragdrop="true">-->
+      <!--<ng-template let-portfolio pTemplate="item">-->
+        <!--<div class="ui-helper-clearfix">-->
+          <!--<img src="http://www.nasdaq.com/logos/{{portfolio.symbol}}.GIF" style="display:inline-block;margin:2px 0 2px 2px" width="48">-->
+          <!--<div style="font-size:14px;float:right;margin:15px 5px 0 0">{{portfolio.symbol}}</div>-->
+        <!--</div>-->
+      <!--</ng-template>-->
+    <!--</p-orderList>-->
+  <!--</div>-->
 
 </div>
