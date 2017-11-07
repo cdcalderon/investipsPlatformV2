@@ -12,22 +12,22 @@ import {IUserProfile} from "./common/IUserProfile";
         <div class="profile" [ngClass]="{'profile-expanded':active}">
             <div class="profile-image"></div>
             <a href="#" (click)="onClick($event)">
-                <span class="profile-name">{{profile?.name}}</span>
+                <span class="profile-name">Carlos Calderon</span>
                 <i class="material-icons">keyboard_arrow_down</i>
             </a>
         </div>
 
         <ul class="ultima-menu profile-menu" [@menu]="active ? 'visible' : 'hidden'">
             <li role="menuitem">
-                <a href="#" class="ripplelink" [attr.tabindex]="!active ? '-1' : null">
+                <a href="http://fullstackcorner.com/author/cdcalderon/" class="ripplelink" [attr.tabindex]="!active ? '-1' : null">
                     <i class="material-icons">person</i>
-                    <span>Profile</span>
+                    <span>Profile</span> : Full Stack Corner
                 </a>
             </li>
             <li role="menuitem">
-                <a href="#" class="ripplelink" [attr.tabindex]="!active ? '-1' : null">
+                <a href="https://github.com/cdcalderon" class="ripplelink" [attr.tabindex]="!active ? '-1' : null">
                     <i class="material-icons">security</i>
-                    <span>Privacy</span>
+                    <span>Github</span>
                 </a>
             </li>
             <li role="menuitem">
